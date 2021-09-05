@@ -23,7 +23,7 @@ Leave a star as a way to say "Thank you". Enjoy!
 **If there are linker errors**:
 
 1. It probably means the precompiled ImGui is not compatible with your system. Read [this](https://github.com/Superbelko/imgui-d) for instructions on how to use their script that builds both ImGui and GLFW for you.
-2. Move the compiled `imgui.lib` and `glfw3.dll` into `lib` and `dll` respectively.
+2. Move the compiled `imgui.lib` and `glfw3.dll` into `lib` and `bin` respectively.
 3. Now it should work.
 
 
