@@ -1,0 +1,36 @@
+{
+	"authors": [
+		"Anton"
+	],
+	"dependencies": {
+		"bindbc-glfw": "~>1.0.0",
+		"bindbc-opengl": "~>1.0.0"
+	},
+	"license": "MIT",
+	"name": "uni_crypto2",
+	"targetPath": "bin",
+	"workingDirectory": "bin",
+	"versions": ["GLFW_33", "GL_46"],
+	"libs": ["lib/imgui"],
+	"lflags-windows": [
+		"/LIBPATH:bin",
+		"/NODEFAULTLIB:libcmt",
+		"/NODEFAULTLIB:libvcruntime",
+		"/NODEFAULTLIB:libucrt"
+	],
+	"targetType": "executable",
+	"configurations": [
+		{
+			"name": "default"
+		},
+		{
+			"name": "ast",
+			"dflags": [
+				"-vcg-ast"
+			],
+			"postBuildCommands": [
+				"rdmd move_vcg.d"
+			]
+		}
+	]
+}
