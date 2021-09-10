@@ -21,6 +21,10 @@
 	"targetType": "executable",
 	"configurations": [
 		{
+			"targetName": "test",
+			"name": "unittest"
+		},
+		{
 			"name": "default"
 		},
 		{

@@ -52,7 +52,7 @@ class Caesar : IApp
                 if (str[i] >= 'a' && str[i] <= 'z')
                     str[i] += 'A' - 'a';
 
-                char t = cast(char)(str[i] - 'A' + shift + letterCount) % letterCount + 'A';
+                char t = cast(char)(str[i] - 'A' + shift) % letterCount + 'A';
                 result[j++] = t;
             }
             result[j] = 0;
@@ -90,6 +90,96 @@ struct SingleCharString
     }
 }
 
+struct CircularQueue(T, size_t size)
+{
+    T[size] arrayof;
+    private int _currentIndex = -1;
+    private size_t _count = 0;
+
+    private int mapIndex(int index) 
+    {
+        return (index + _currentIndex - _count + 1) % size;
+    }
+
+    bool empty()
+    {
+        return _count == 0;
+    }
+
+    enum capacity = size;
+    size_t length()
+    {
+        return cast(size_t) _count;
+    }
+
+    auto ref T front()
+    in (!empty)
+    {
+        return arrayof[mapIndex(0)];
+    }
+
+    void popFront()
+    in (!empty)
+    {
+        _currentIndex += size - 1;
+        _currentIndex %= size;
+        _count--;
+    }
+
+    void opOpAssign(string op, T)(T value) if (op == "~")
+    {
+        _currentIndex += 1;
+        _currentIndex %= size;
+        arrayof[_currentIndex] = value;
+        if (_count != size)
+            _count++;
+    }
+
+    auto opSlice()
+    {
+        import std.algorithm;
+        if (_count < _currentIndex)
+        {
+            return arrayof[_currentIndex - _count.._currentIndex].chain(arrayof[0..0]);
+        }
+        if (_count == size)
+        {
+            return arrayof[_currentIndex + 1..size].chain(arrayof[0.._currentIndex + 1]);
+        }
+        return arrayof[0.._currentIndex + 1].chain(arrayof[(_currentIndex + 1 + size - _count)..size]);
+    }
+}
+
+unittest
+{
+    CircularQueue!(int, 4) q;
+    assert(q.empty);
+    q ~= 1;
+    assert(!q.empty);
+    assert(q.front == 1);
+    assert(q.length == 1);
+    assert(equal(q[], [1]));
+
+    q.popFront();
+    assert(q.length == 0);
+    assert(q.empty);
+    import std.algorithm;
+    assert(q[].length == 0);
+    
+    q ~= 2; 
+    q ~= 3;
+    q ~= 4;
+    q ~= 5;
+    assert(q.front == 2);
+    assert(q.length == 4);
+    assert(equal(q[], [2, 3, 4, 5]));
+    q ~= 6; // 2 gets replaced
+    assert(q.front == 3);
+    assert(q.length == 4);
+
+    assert(equal(q[], [3, 4, 5, 6]));
+    assert(equal(q[], [3, 4, 5, 6]));
+}
 
 
 class Frequencies : IApp
@@ -98,6 +188,7 @@ class Frequencies : IApp
     char[512] subst;
     AlphabetMap!ulong freqArray;
     AlphabetMap!SingleCharString letters;
+    CircularQueue!(char, 64) lastReassignedCharacters;
 
     void setup()
     {
@@ -130,29 +221,38 @@ class Frequencies : IApp
                 ImGui.NewLine();
             else
                 ImGui.SameLine();
-            valueChanged |= ImGui.InputText(textz(i, ":", freqArray[i]), letters[i].ptr, 2);
+            if (ImGui.InputText(textz(i, ":", freqArray[i]), letters[i].ptr, 2))
+            {
+                valueChanged = true;
+                lastReassignedCharacters ~= i;
+            }
         }
         ImGui.PopItemWidth();
         ImGui.EndGroup();
 
         if (ImGui.Button("Normalize"))
         {
-            bool[letterCount] usedLetters;
+            char[letterCount] usedLetterIndices;
             size_t[] indicesOfDuplicates;
 
             for (size_t i = 0; i < letterCount; i++)
             {
-                if (usedLetters[letters.arrayof[i].ch - 'A'])
+                if (usedLetterIndices[letters.arrayof[i].ch - 'A'] != -1)
                 {
                     indicesOfDuplicates ~= i;
                 }
-                usedLetters[letters.arrayof[i].ch - 'A'] = true;
+                usedLetterIndices[letters.arrayof[i].ch - 'A'] = cast(char) i;
             }
 
             for (size_t i = 0; i < letterCount; i++)
             {
-                if (!usedLetters[i])
+                if (usedLetterIndices[i] == -1)
                 {
+                    import std.algorithm;
+                    // char lowerPriorityCandidate = lastReassignedCharacters[].countUntil(usedLetterIndices[i] + 'A');
+                    // auto higherPriorityCandidates = lastReassignedCharacters[]
+                    //     .countUntil(usedLetterIndices[i] + 'A');
+                    // char toReplace = 
                     letters.arrayof[indicesOfDuplicates.front].ch = cast(char) (i + 'A');
                     indicesOfDuplicates.popFront();
                 }
@@ -169,7 +269,10 @@ class Frequencies : IApp
                 if (ch == 0)
                     break;
                 if (!isAlpha(ch))
+                {
+                    subst[j++] = ch;
                     continue;
+                }
                 ch = toUpper(ch);
                 subst[j++] = letters[ch].ch;
             }
