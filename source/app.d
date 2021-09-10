@@ -135,19 +135,29 @@ class Frequencies : IApp
         ImGui.PopItemWidth();
         ImGui.EndGroup();
 
-        // if (ImGui.Button("Normalize"))
-        // {
-        //     AlphabetMap!int counts;
-        //     for (char i = 'A'; i <= 'Z'; i++)
-        //         counts[letters[i].ch]++;
-            
-        //     for (char i = 'A'; i <= 'Z'; i++)
-        //     {
-        //         if (counts[i] > 1)
-        //         for (char j = 'A'; j <= 'Z'; j++)
+        if (ImGui.Button("Normalize"))
+        {
+            bool[letterCount] usedLetters;
+            size_t[] indicesOfDuplicates;
 
-        //     }
-        // }
+            for (size_t i = 0; i < letterCount; i++)
+            {
+                if (usedLetters[letters.arrayof[i].ch - 'A'])
+                {
+                    indicesOfDuplicates ~= i;
+                }
+                usedLetters[letters.arrayof[i].ch - 'A'] = true;
+            }
+
+            for (size_t i = 0; i < letterCount; i++)
+            {
+                if (!usedLetters[i])
+                {
+                    letters.arrayof[indicesOfDuplicates.front].ch = cast(char) (i + 'A');
+                    indicesOfDuplicates.popFront();
+                }
+            }
+        }
 
         if (valueChanged)
         {
@@ -216,7 +226,6 @@ class App : IApp
     // The game loop, called each frame
     void update(double dt)
     {
-        
         ImguiImpl.NewFrame();
         if (ImGui.Begin("Tools"))
         {
