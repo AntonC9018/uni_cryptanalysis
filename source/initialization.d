@@ -114,13 +114,13 @@ void initialize()
 
 
     ImGui.CreateContext();
-	ImGuiIO* io = &ImGui.GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+    ImGuiIO* io = &ImGui.GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
-	ImguiImpl.InitOpenGL(window);
-	ImGui.StyleColorsDark();
+    ImguiImpl.InitOpenGL(window);
+    ImGui.StyleColorsDark();
 
     // const DPI_SCALE = 1.5;
     // auto style = &ImGui.GetStyle();
