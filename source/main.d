@@ -4,8 +4,6 @@ import initialization;
 
 void main()
 {
-	writeln("Edit source/app.d to start your project.");
-
 	initialize();
 	run();
     shutdown();
@@ -15,8 +13,8 @@ void run()
 {
 	import imports;
     import std.exception : enforce;
-	import app = app;
-    
+	import app : App;
+    IApp app = new App(); 
     app.setup();
 
     double time = glfwGetTime();

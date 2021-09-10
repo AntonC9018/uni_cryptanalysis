@@ -14,3 +14,9 @@ const (char*) textz(Args...)(Args a)
 {
     return text(a).toStringz;
 } 
+
+interface IApp
+{
+    void setup();
+    void update(double dt);
+}

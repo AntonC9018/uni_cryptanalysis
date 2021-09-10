@@ -7,7 +7,7 @@
 		"bindbc-opengl": "~>1.0.0"
 	},
 	"license": "MIT",
-	"name": "uni_crypto2",
+	"name": "uni_cryptanalysis",
 	"targetPath": "bin",
 	"workingDirectory": "bin",
 	"versions": ["GLFW_33", "GL_46"],
