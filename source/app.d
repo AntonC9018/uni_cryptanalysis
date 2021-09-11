@@ -183,8 +183,8 @@ unittest
 
 class Frequencies : IApp
 {
-    char[512] input;
-    char[512] subst;
+    char[1024] input;
+    char[1024] subst;
     AlphabetMap!ulong freqArray;
     AlphabetMap!SingleCharString letters;
     CircularQueue!(char, 32) lastReassignedCharacters;

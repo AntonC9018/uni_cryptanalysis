@@ -203,6 +203,279 @@ FGFXJ  XTKYM  JQJYY  JWKWJ  VZJSH  NJXBM  NHMMF  AJGJJ  SHFQH  ZQFYJ  IGDQT  TPN
 QNTSX TKYJC YXFSI FWJYM ZXAJW DMNLM QDFHH ZWFYJ
 ```
 
+Vom încerca substituțiile chiar după frecvențele literelor.
+Dacă substituim toate caracterele după frecvențele, primi așa ceva:
+
+```
+TNEVE  TNIWI  LIYMB  ENHOW  CREKD  EOUMA  OALMS  HSREL  HESIO  TNECA  UTTNA  THOAO  MLAOY 
+DAYEE AUNLE TTERN ASHTS IFOGE RSIOA LHTMT NEVIS TIBPH IDSTR AHTTN ATLET TERSN 
+APEHS TNECR EKDEO UMFHT NFNHU NTNEM AGGEA RHOAL AOYDA YEULE ARLMH OEOYL HSNTN 
+ELETT ERQAG GEARS CARLE SSCRE KDEOT LMTNA OSAMA HOTHV ESYIO EBMHC MIDFA OTEWT ICHOW 
+IDTTN ECREK DEOUH ESICL ETTER SFHTN HOALA OYDAY EMIDN AWTIC HOWAL ARYEG HEUEI CTEJT 
+AOWUI  DOTEA  UNCRE  KDEOU  MOIFN  IFEPE  RFENA  PEUIV  GDTER  STNAT  UAOWI  TNENA  RWFIR 
+XCIRD SBDTH OCAUT FEWIO TEPEO OEEWT IWITN HSSTE GASCI RVIST LAOYD AYEST NEREA REWAT 
+ABASE  SICTN  ELETT  ERCRE  KDEOU  HESFN  HUNNA  PEBEE  OUALU  DLATE  WBMLI  IXHOY  ATVHL 
+LHIOS ICTEJ TSAOW ARETN DSPER MNHYN LMAUU DRATE
+```
+
+Nu ne dă prea mult. Vom încerca din nou.
+
+Vom substitui doar J la E, Y la T și F la A. Avem:
+
+```
+tMeRe  tMTIT  QTLDG  eMNSI  KWeVZ  eSHDa  SaQDX  NXWeQ  NeXTS  tMeKa  HttMa  tNSaS  DQaSL 
+ZaLee aHMQe tteWM aXNtX TBSUe WXTSa QNtDt MeRTX tTGAN TZXtW aNttM atQet teWXM 
+aAeNX tMeKW eVZeS HDBNt MBMNH MtMeD aUUea WNSaQ aSLZa LeHQe aWQDN SeSLQ NXMtM 
+eQett eWEaU UeaWX KaWQe XXKWe VZeSt QDtMa SXaDa NStNR eXLTS eGDNK DTZBa SteIt TKNSI 
+TZttM eKWeV ZeSHN eXTKQ etteW XBNtM NSaQa SLZaL eDTZM aItTK NSIaQ aWLeU NeHeT KteCt 
+aSIHT  ZStea  HMKWe  VZeSH  DSTBM  TBeAe  WBeMa  AeHTR  UZteW  XtMat  HaSIT  tMeMa  WIBTW 
+PKTWZ XGZtN SKaHt BeITS teAeS SeeIt TITtM NXXte UaXKT WRTXt QaSLZ aLeXt MeWea WeIat 
+aGaXe  XTKtM  eQett  eWKWe  VZeSH  NeXBM  NHMMa  AeGee  SHaQH  ZQate  IGDQT  TPNSL  atRNQ 
+QNTSX TKteC tXaSI aWetM ZXAeW DMNLM QDaHH ZWate
+```
+
+tM se întâlnește des, deci M probabil este H.
+
+```
+theRe  thTIT  QTLDG  ehNSI  KWeVZ  eSHDa  SaQDX  NXWeQ  NeXTS  theKa  Httha  tNSaS  DQaSL 
+ZaLee aHhQe tteWh aXNtX TBSUe WXTSa QNtDt heRTX tTGAN TZXtW aNtth atQet teWXh 
+aAeNX theKW eVZeS HDBNt hBhNH htheD aUUea WNSaQ aSLZa LeHQe aWQDN SeSLQ NXhth 
+eQett eWEaU UeaWX KaWQe XXKWe VZeSt QDtha SXaDa NStNR eXLTS eGDNK DTZBa SteIt TKNSI 
+TZtth eKWeV ZeSHN eXTKQ etteW XBNth NSaQa SLZaL eDTZh aItTK NSIaQ aWLeU NeHeT KteCt 
+aSIHT  ZStea  HhKWe  VZeSH  DSTBh  TBeAe  WBeha  AeHTR  UZteW  Xthat  HaSIT  theha  WIBTW 
+PKTWZ XGZtN SKaHt BeITS teAeS SeeIt TITth NXXte UaXKT WRTXt QaSLZ aLeXt heWea WeIat 
+aGaXe  XTKth  eQett  eWKWe  VZeSH  NeXBh  NHhha  AeGee  SHaQH  ZQate  IGDQT  TPNSL  atRNQ 
+QNTSX TKteC tXaSI aWeth ZXAeW DhNLh QDaHH ZWate
+```
+
+Deja vedem cuvintele the, that. 
+
+theRe: poate fi theme, these sau there. Deci $ s(R) \in { M, S, R } $.
+
+Ne uităm la trigramele cu A, străduindu-se să găsim AND: aQD, aSL, aXN, aQN, aUU, aWN, aSL, aWQ, aUU, aWX, aWQ, aSX, aNS, aSL, aWL, aSI, aSI, aXK, aSL, aQH, aSI, aHH.
+
+Observăm și aUUeaW care apare de 2 ori. 
+
+De două ori avem conbinația haAe. Este precis începutul unui cuvând, deoarece nu există cuvintele unde h stă după e sau h.
+Nu poate fi hate, deoarece deja am substituit T, deci este have, hare sau haze, dar cel mai probabil have.
+
+```
+theRe  thTIT  QTLDG  ehNSI  KWeVZ  eSHDa  SaQDX  NXWeQ  NeXTS  theKa  Httha  tNSaS  DQaSL 
+ZaLee aHhQe tteWh aXNtX TBSUe WXTSa QNtDt heRTX tTGvN TZXtW aNtth atQet teWXh 
+aveNX theKW eVZeS HDBNt hBhNH htheD aUUea WNSaQ aSLZa LeHQe aWQDN SeSLQ NXhth 
+eQett eWEaU UeaWX KaWQe XXKWe VZeSt QDtha SXaDa NStNR eXLTS eGDNK DTZBa SteIt TKNSI 
+TZtth eKWeV ZeSHN eXTKQ etteW XBNth NSaQa SLZaL eDTZh aItTK NSIaQ aWLeU NeHeT KteCt 
+aSIHT  ZStea  HhKWe  VZeSH  DSTBh  TBeve  WBeha  veHTR  UZteW  Xthat  HaSIT  theha  WIBTW 
+PKTWZ XGZtN SKaHt BeITS teveS SeeIt TITth NXXte UaXKT WRTXt QaSLZ aLeXt heWea WeIat 
+aGaXe  XTKth  eQett  eWKWe  VZeSH  NeXBh  NHhha  veGee  SHaQH  ZQate  IGDQT  TPNSL  atRNQ 
+QNTSX TKteC tXaSI aWeth ZXveW DhNLh QDaHH ZWate
+```
+
+Qet teW apare de mai multe ori. Este or LETTER, ori BETTERm dar cel mai probabil BETTER, deci vom substitui.
+
+```
+theRe  thTIT  bTLDG  ehNSI  KreVZ  eSHDa  SabDX  NXreb  NeXTS  theKa  Httha  tNSaS  DbaSL 
+ZaLee aHhbe tterh aXNtX TBSUe rXTSa bNtDt heRTX tTGvN TZXtr aNtth atbet terXh 
+aveNX theKr eVZeS HDBNt hBhNH htheD aUUea rNSab aSLZa LeHbe arbDN SeSLb NXhth 
+ebett erEaU UearX Karbe XXKre VZeSt bDtha SXaDa NStNR eXLTS eGDNK DTZBa SteIt TKNSI 
+TZtth eKreV ZeSHN eXTKb etter XBNth NSaba SLZaL eDTZh aItTK NSIab arLeU NeHeT KteCt 
+aSIHT  ZStea  HhKre  VZeSH  DSTBh  TBeve  rBeha  veHTR  UZter  Xthat  HaSIT  theha  rIBTr 
+PKTrZ XGZtN SKaHt BeITS teveS SeeIt TITth NXXte UaXKT rRTXt baSLZ aLeXt herea reIat 
+aGaXe  XTKth  ebett  erKre  VZeSH  NeXBh  NHhha  veGee  SHabH  Zbate  IGDbT  TPNSL  atRNb 
+bNTSX TKteC tXaSI areth ZXver DhNLh bDaHH Zrate
+```
+
+Avem combinația betterXhave, deci X este I.
+
+```
+theRe  thTIT  bTLDG  ehNSI  KreVZ  eSHDa  SabDi  Nireb  NeiTS  theKa  Httha  tNSaS  DbaSL 
+ZaLee aHhbe tterh aiNti TBSUe riTSa bNtDt heRTi tTGvN TZitr aNtth atbet terih 
+aveNi theKr eVZeS HDBNt hBhNH htheD aUUea rNSab aSLZa LeHbe arbDN SeSLb Nihth 
+ebett erEaU Ueari Karbe iiKre VZeSt bDtha SiaDa NStNR eiLTS eGDNK DTZBa SteIt TKNSI 
+TZtth eKreV ZeSHN eiTKb etter iBNth NSaba SLZaL eDTZh aItTK NSIab arLeU NeHeT KteCt 
+aSIHT  ZStea  HhKre  VZeSH  DSTBh  TBeve  rBeha  veHTR  UZter  ithat  HaSIT  theha  rIBTr 
+PKTrZ iGZtN SKaHt BeITS teveS SeeIt TITth Niite UaiKT rRTit baSLZ aLeit herea reIat 
+aGaie  iTKth  ebett  erKre  VZeSH  NeiBh  NHhha  veGee  SHabH  Zbate  IGDbT  TPNSL  atRNb 
+bNTSi TKteC tiaSI areth Ziver DhNLh bDaHH Zrate
+```
+
+H este ori G ori S (avem Hhh, implică că Hh este sfârșitul cuvântului, deci este thigh/trough/though/through etc, ori anguish/polish etc.) 
+
+`th Niite Uai` este o combinație interesantă. Nu există cuvintele care au ii una după alta, deci ite este partea unui cunvânt nou. iteU este 100% item, nu există alte cuvinte de așa formă.
+
+Am făcut aici și substituția (temporar) T -> O (după frecvența).
+
+```
+theRe  thoIo  boLDG  ehNSI  KreVZ  eSHDa  SabDi  Nireb  NeioS  theKa  Httha  tNSaS  DbaSL 
+ZaLee aHhbe tterh aiNti oBSme rioSa bNtDt heRoi toGvN oZitr aNtth atbet terih 
+aveNi theKr eVZeS HDBNt hBhNH htheD ammea rNSab aSLZa LeHbe arbDN SeSLb Nihth 
+ebett erEam meari Karbe iiKre VZeSt bDtha SiaDa NStNR eiLoS eGDNK DoZBa SteIt oKNSI 
+oZtth eKreV ZeSHN eioKb etter iBNth NSaba SLZaL eDoZh aItoK NSIab arLem NeHeo KteCt 
+aSIHo  ZStea  HhKre  VZeSH  DSoBh  oBeve  rBeha  veHoR  mZter  ithat  HaSIo  theha  rIBor 
+PKorZ iGZtN SKaHt BeIoS teveS SeeIt oIoth Niite maiKo rRoit baSLZ aLeit herea reIat 
+aGaie  ioKth  ebett  erKre  VZeSH  NeiBh  NHhha  veGee  SHabH  Zbate  IGDbo  oPNSL  atRNb 
+bNoSi oKteC tiaSI areth Ziver DhNLh bDaHH Zrate
+```
+
+`theKa  Httha  t` implică că KaHt este un cuvânt, și este un obiect (the ceva that). Variantele: part, cart, bait, east, fact, gait, pact. Cel mai probabil este fact (există și fraza the fact that).
+
+```
+theRe  thoIo  boLDG  ehNSI  freVZ  eScDa  SabDi  Nireb  NeioS  thefa  cttha  tNSaS  DbaSL 
+ZaLee achbe tterh aiNti oBSme rioSa bNtDt heRoi toGvN oZitr aNtth atbet terih 
+aveNi thefr eVZeS cDBNt hBhNc htheD ammea rNSab aSLZa Lecbe arbDN SeSLb Nihth 
+ebett erEam meari farbe iifre VZeSt bDtha SiaDa NStNR eiLoS eGDNf DoZBa SteIt ofNSI 
+oZtth efreV ZeScN eiofb etter iBNth NSaba SLZaL eDoZh aItof NSIab arLem Neceo fteCt 
+aSIco  ZStea  chfre  VZeSc  DSoBh  oBeve  rBeha  vecoR  mZter  ithat  caSIo  theha  rIBor 
+PforZ iGZtN Sfact BeIoS teveS SeeIt oIoth Niite maifo rRoit baSLZ aLeit herea reIat 
+aGaie  iofth  ebett  erfre  VZeSc  NeiBh  Nchha  veGee  Scabc  Zbate  IGDbo  oPNSL  atRNb 
+bNoSi ofteC tiaSI areth Ziver DhNLh bDacc Zrate
+```
+
+Combinația `freVZeS` se întâlnește de 7 ori. În unele cazuri avem the înainte de ea, deci este un cuvând separat. în 4 cazuri din 7 mai avem c după S. Poate fi fresh sau freak. Dacă freak, atunci eS poate fi freaked.
+
+B nu-mi pare bună substituția, vedem aba, arb, hb, etc., deci o voi scoate. Pe O tot o voi scoate.
+
+```
+theRe  thTIT  QTLDG  ehNSI  freVZ  eScDa  SaQDi  NireQ  NeiTS  thefa  cttha  tNSaS  DQaSL 
+ZaLee achQe tterh aiNti TBSme riTSa QNtDt heRTi tTGvN TZitr aNtth atQet terih 
+aveNi thefr eVZeS cDBNt hBhNc htheD ammea rNSaQ aSLZa LecQe arQDN SeSLQ Nihth 
+eQett erEam meari farQe iifre VZeSt QDtha SiaDa NStNR eiLTS eGDNf DTZBa SteIt TfNSI 
+TZtth efreV ZeScN eiTfQ etter iBNth NSaQa SLZaL eDTZh aItTf NSIaQ arLem NeceT fteCt 
+aSIcT  ZStea  chfre  VZeSc  DSTBh  TBeve  rBeha  vecTR  mZter  ithat  caSIT  theha  rIBTr 
+PfTrZ iGZtN Sfact BeITS teveS SeeIt TITth Niite maifT rRTit QaSLZ aLeit herea reIat 
+aGaie  iTfth  eQett  erfre  VZeSc  NeiBh  Nchha  veGee  ScaQc  ZQate  IGDQT  TPNSL  atRNQ 
+QNTSi TfteC tiaSI areth Ziver DhNLh QDacc Zrate
+```
+
+M-am dat seama de `acc Zrate`. Z precis este U.
+
+```
+theRe  thTIT  QTLDG  ehNSI  freVu  eScDa  SaQDi  NireQ  NeiTS  thefa  cttha  tNSaS  DQaSL 
+uaLee achQe tterh aiNti TBSme riTSa QNtDt heRTi tTGvN Tuitr aNtth atQet terih 
+aveNi thefr eVueS cDBNt hBhNc htheD ammea rNSaQ aSLua LecQe arQDN SeSLQ Nihth 
+eQett erEam meari farQe iifre VueSt QDtha SiaDa NStNR eiLTS eGDNf DTuBa SteIt TfNSI 
+Tutth efreV ueScN eiTfQ etter iBNth NSaQa SLuaL eDTuh aItTf NSIaQ arLem NeceT fteCt 
+aSIcT  uStea  chfre  VueSc  DSTBh  TBeve  rBeha  vecTR  muter  ithat  caSIT  theha  rIBTr 
+PfTru iGutN Sfact BeITS teveS SeeIt TITth Niite maifT rRTit QaSLu aLeit herea reIat 
+aGaie  iTfth  eQett  erfre  VueSc  NeiBh  Nchha  veGee  ScaQc  uQate  IGDQT  TPNSL  atRNQ 
+QNTSi TfteC tiaSI areth uiver DhNLh QDacc urate
+```
+
+Sunt convins ca nu am avut dreptate cu I șu prin urmare cu M. `Nihthe` este o combinatie imoposibila. 
+
+```
+theRe  thTIT  QTLDG  ehNSI  freVu  eScDa  SaQDX  NXreQ  NeXTS  thefa  cttha  tNSaS  DQaSL 
+uaLee achQe tterh aXNtX TBSUe rXTSa QNtDt heRTX tTGvN TuXtr aNtth atQet terXh 
+aveNX thefr eVueS cDBNt hBhNc htheD aUUea rNSaQ aSLua LecQe arQDN SeSLQ NXhth 
+eQett erEaU UearX farQe XXfre VueSt QDtha SXaDa NStNR eXLTS eGDNf DTuBa SteIt TfNSI 
+Tutth efreV ueScN eXTfQ etter XBNth NSaQa SLuaL eDTuh aItTf NSIaQ arLeU NeceT fteCt 
+aSIcT  uStea  chfre  VueSc  DSTBh  TBeve  rBeha  vecTR  Uuter  Xthat  caSIT  theha  rIBTr 
+PfTru XGutN Sfact BeITS teveS SeeIt TITth NXXte UaXfT rRTXt QaSLu aLeXt herea reIat 
+aGaXe  XTfth  eQett  erfre  VueSc  NeXBh  Nchha  veGee  ScaQc  uQate  IGDQT  TPNSL  atRNQ 
+QNTSX TfteC tXaSI areth uXver DhNLh QDacc urate
+```
+
+Aș ghici că `Qet terX` este totuși letters (mai muțin probabil getter).
+
+```
+theRe  thTIT  lTLDG  ehNSI  freVu  eScDa  SalDs  Nsrel  NesTS  thefa  cttha  tNSaS  DlaSL 
+uaLee achle tterh asNts TBSUe rsTSa lNtDt heRTs tTGvN Tustr aNtth atlet tersh 
+aveNs thefr eVueS cDBNt hBhNc htheD aUUea rNSal aSLua Lecle arlDN SeSLl Nshth 
+elett erEaU Uears farle ssfre VueSt lDtha SsaDa NStNR esLTS eGDNf DTuBa SteIt TfNSI 
+Tutth efreV ueScN esTfl etter sBNth NSala SLuaL eDTuh aItTf NSIal arLeU NeceT fteCt 
+aSIcT  uStea  chfre  VueSc  DSTBh  TBeve  rBeha  vecTR  Uuter  sthat  caSIT  theha  rIBTr 
+PfTru sGutN Sfact BeITS teveS SeeIt TITth Nsste UasfT rRTst laSLu aLest herea reIat 
+aGase  sTfth  elett  erfre  VueSc  NesBh  Nchha  veGee  Scalc  ulate  IGDlT  TPNSL  atRNl 
+lNTSs TfteC tsaSI areth usver DhNLh lDacc urate
+```
+
+`cTRUuters` = computers, sunt convins.
+
+```
+theme  thoIo  loLDG  ehNSI  freVu  eScDa  SalDs  Nsrel  NesoS  thefa  cttha  tNSaS  DlaSL 
+uaLee achle tterh asNts oBSpe rsoSa lNtDt hemos toGvN oustr aNtth atlet tersh 
+aveNs thefr eVueS cDBNt hBhNc htheD appea rNSal aSLua Lecle arlDN SeSLl Nshth 
+elett erEap pears farle ssfre VueSt lDtha SsaDa NStNm esLoS eGDNf DouBa SteIt ofNSI 
+outth efreV ueScN esofl etter sBNth NSala SLuaL eDouh aItof NSIal arLep Neceo fteCt 
+aSIco  uStea  chfre  VueSc  DSoBh  oBeve  rBeha  vecom  puter  sthat  caSIo  theha  rIBor 
+Pforu sGutN Sfact BeIoS teveS SeeIt oIoth Nsste pasfo rmost laSLu aLest herea reIat 
+aGase  softh  elett  erfre  VueSc  NesBh  Nchha  veGee  Scalc  ulate  IGDlo  oPNSL  atmNl 
+lNoSs ofteC tsaSI areth usver DhNLh lDacc urate
+```
+
+`methoIoloLD` = methodology
+
+```
+theme  thodo  logyG  ehNSd  freVu  eScya  Salys  Nsrel  NesoS  thefa  cttha  tNSaS  ylaSg 
+uagee achle tterh asNts oBSpe rsoSa lNtyt hemos toGvN oustr aNtth atlet tersh 
+aveNs thefr eVueS cyBNt hBhNc hthey appea rNSal aSgua gecle arlyN SeSgl Nshth 
+elett erEap pears farle ssfre VueSt lytha Ssaya NStNm esgoS eGyNf youBa Stedt ofNSd 
+outth efreV ueScN esofl etter sBNth NSala Sguag eyouh adtof NSdal argep Neceo fteCt 
+aSdco  uStea  chfre  VueSc  ySoBh  oBeve  rBeha  vecom  puter  sthat  caSdo  theha  rdBor 
+Pforu sGutN Sfact BedoS teveS Seedt odoth Nsste pasfo rmost laSgu agest herea redat 
+aGase  softh  elett  erfre  VueSc  NesBh  Nchha  veGee  Scalc  ulate  dGylo  oPNSg  atmNl 
+lNoSs ofteC tsaSd areth usver yhNgh lyacc urate
+```
+
+`aSalysNs` = analysis
+
+```
+theme  thodo  logyG  ehind  freVu  encya  nalys  isrel  ieson  thefa  cttha  tinan  ylang 
+uagee achle tterh asits oBnpe rsona lityt hemos toGvi oustr aitth atlet tersh 
+aveis thefr eVuen cyBit hBhic hthey appea rinal angua gecle arlyi nengl ishth 
+elett erEap pears farle ssfre Vuent lytha nsaya intim esgon eGyif youBa ntedt ofind 
+outth efreV uenci esofl etter sBith inala nguag eyouh adtof indal argep ieceo fteCt 
+andco  untea  chfre  Vuenc  ynoBh  oBeve  rBeha  vecom  puter  sthat  cando  theha  rdBor 
+Pforu sGuti nfact Bedon teven needt odoth isste pasfo rmost langu agest herea redat 
+aGase  softh  elett  erfre  Vuenc  iesBh  ichha  veGee  ncalc  ulate  dGylo  oPing  atmil 
+lions ofteC tsand areth usver yhigh lyacc urate
+```
+
+`has its oBn personality`; B = w
+
+```
+theme  thodo  logyG  ehind  freVu  encya  nalys  isrel  ieson  thefa  cttha  tinan  ylang 
+uagee achle tterh asits ownpe rsona lityt hemos toGvi oustr aitth atlet tersh 
+aveis thefr eVuen cywit hwhic hthey appea rinal angua gecle arlyi nengl ishth 
+elett erEap pears farle ssfre Vuent lytha nsaya intim esgon eGyif youwa ntedt ofind 
+outth efreV uenci esofl etter swith inala nguag eyouh adtof indal argep ieceo fteCt 
+andco  untea  chfre  Vuenc  ynowh  oweve  rweha  vecom  puter  sthat  cando  theha  rdwor 
+Pforu sGuti nfact wedon teven needt odoth isste pasfo rmost langu agest herea redat 
+aGase  softh  elett  erfre  Vuenc  ieswh  ichha  veGee  ncalc  ulate  dGylo  oPing  atmil 
+lions ofteC tsand areth usver yhigh lyacc urate
+```
+
+`Gehind` = behind
+
+```
+theme  thodo  logyb  ehind  freVu  encya  nalys  isrel  ieson  thefa  cttha  tinan  ylang 
+uagee achle tterh asits ownpe rsona lityt hemos tobvi oustr aitth atlet tersh 
+aveis thefr eVuen cywit hwhic hthey appea rinal angua gecle arlyi nengl ishth 
+elett erEap pears farle ssfre Vuent lytha nsaya intim esgon ebyif youwa ntedt ofind 
+outth efreV uenci esofl etter swith inala nguag eyouh adtof indal argep ieceo fteCt 
+andco  untea  chfre  Vuenc  ynowh  oweve  rweha  vecom  puter  sthat  cando  theha  rdwor 
+Pforu sbuti nfact wedon teven needt odoth isste pasfo rmost langu agest herea redat 
+abase  softh  elett  erfre  Vuenc  ieswh  ichha  vebee  ncalc  ulate  dbylo  oPing  atmil 
+lions ofteC tsand areth usver yhigh lyacc urate
+```
+
+`freVuency` = frequency
+
+```
+the methodology behind frequency analysis relies on the fact that in any language
+each letter has its own personality. the most obvious trait that letters have is the
+frequency with which they appear in a language. clearly, in english the letter 
+E = z/j 
+appears far less frequently than, say, a in times gone by if you wanted to find 
+out the frequencies of letters within a language you had to find a large piece of
+teCt = text, C = x
+and count each frequency. now, however, we have computers that can do the hard 
+worP = work, P = k
+for us, but in fact we don't even need to do this step as for most languages there
+are databases of the letter frequencies which have been calculated by looking  
+at millions of texts and are thus very highly accurate.
+```
+
 ## Remarci
 
 ### Binding-urile Imgui
