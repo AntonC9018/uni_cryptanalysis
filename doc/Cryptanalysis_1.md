@@ -14,7 +14,8 @@ Vedeți [Github](https://github.com/AntonC9018/uni_cryptanalysis).
   - [Exercițiile](#exercițiile)
     - [1. Cifrul Caesar.](#1-cifrul-caesar)
     - [2. Cifru cu substituție](#2-cifru-cu-substituție)
-    - [Ex. 3 a)](#ex-3-a)
+    - [Ex. 3 b)](#ex-3-b)
+    - [Ex.3 b)](#ex3-b)
   - [Remarci](#remarci)
     - [Binding-urile Imgui](#binding-urile-imgui)
     - [De ce nu m-am oprit la binding-urile inițiale pe care le-am găsit și înainte de aceste 4 zile?](#de-ce-nu-m-am-oprit-la-binding-urile-inițiale-pe-care-le-am-găsit-și-înainte-de-aceste-4-zile)
@@ -189,7 +190,7 @@ Substituțiile finale:
 
 ![](images/lab1_sub4.png)
 
-### Ex. 3 a)
+### Ex. 3 b)
 
 ```
 YMJRJ  YMTIT  QTLDG  JMNSI  KWJVZ  JSHDF  SFQDX  NXWJQ  NJXTS  YMJKF  HYYMF  YNSFS  DQFSL 
@@ -299,7 +300,7 @@ aGaie  iTKth  ebett  erKre  VZeSH  NeiBh  NHhha  veGee  SHabH  Zbate  IGDbT  TPN
 bNTSi TKteC tiaSI areth Ziver DhNLh bDaHH Zrate
 ```
 
-H este ori G ori S (avem Hhh, implică că Hh este sfârșitul cuvântului, deci este thigh/trough/though/through etc, ori anguish/polish etc.) 
+H este ori G ori C ori S (avem Hhh, implică că Hh este sfârșitul cuvântului, deci este thigh/trough/though/through etc, ori anguish/polish etc.) 
 
 `th Niite Uai` este o combinație interesantă. Nu există cuvintele care au ii una după alta, deci ite este partea unui cunvânt nou. iteU este 100% item, nu există alte cuvinte de așa formă.
 
@@ -361,7 +362,7 @@ aGaie  iTfth  eQett  erfre  VueSc  NeiBh  Nchha  veGee  ScaQc  uQate  IGDQT  TPN
 QNTSi TfteC tiaSI areth uiver DhNLh QDacc urate
 ```
 
-Sunt convins ca nu am avut dreptate cu I șu prin urmare cu M. `Nihthe` este o combinatie imoposibila. 
+Sunt convins ca nu am avut dreptate cu I șu prin urmare cu M. `Nihthe` este o combinație imposibilă. 
 
 ```
 theRe  thTIT  QTLDG  ehNSI  freVu  eScDa  SaQDX  NXreQ  NeXTS  thefa  cttha  tNSaS  DQaSL 
@@ -474,6 +475,221 @@ worP = work, P = k
 for us, but in fact we don't even need to do this step as for most languages there
 are databases of the letter frequencies which have been calculated by looking  
 at millions of texts and are thus very highly accurate.
+```
+
+### Ex.3 b)
+```
+SCEAC SKDXA CESDS CKVSO LCDDA GKEMG AMTYK TOVKS OSFNC FPCEE 
+XMTDA OLTCQ OLGKG ACOKS ADSFN EGFGN KCHLQ HGFOL TMQRI TYOSF 
+VLSYL SCFCD XMTGF TLQFP KTPCF PMSWO XMTHC KCOTY SHLTK MRQOS 
+YGFAT MMOLC OOLSM SMTFO SKTDX FTVOG ETOLT GRITY OGAOL GMTVL 
+GSFUT FOTPO LTMXM OTELC MCHHC KTFOD XRTTF OGYGF YTCDO LCOOL 
+TMTYL CKCYO TKMYG FUTXC ETMMC NTCFP OGNSU TOLTS PTCOL COOLT 
+XCKTO LTETK TKCFP GEMBT OYLTM GAYLS DPKTF CKOLQ KYGFC FPGXD 
+TOLTC PUTFO QKTGA OLTPC FYSFN ETF
+```
+
+Începem ca de obicei, 3 cele mai comune litere le schimbăm la E, T și A.
+
+```
+SaEAa SKDXA aESDS aKVSt LaDDA GKEMG AMeYK etVKS tSFNa FPaEE 
+XMeDA tLeaQ tLGKG AatKS ADSFN EGFGN KaHLQ HGFtL eMQRI eYtSF 
+VLSYL SaFaD XMeGF eLQFP KePaF PMSWt XMeHa KateY SHLeK MRQtS 
+YGFAe MMtLa ttLSM SMeFt SKeDX FeVtG EetLe GRIeY tGAtL GMeVL 
+GSFUe FtePt LeMXM teELa MaHHa KeFtD XReeF tGYGF YeaDt LattL 
+eMeYL aKaYt eKMYG FUeXa EeMMa NeaFP tGNSU etLeS PeatL attLe 
+XaKet LeEeK eKaFP GEMBe tYLeM GAYLS DPKeF aKtLQ KYGFa FPGXD 
+etLea PUeFt QKeGA tLePa FYSFN EeF
+```
+
+tLe apare de 9 ori, *you know the drill*.
+
+```
+SaEAa SKDXA aESDS aKVSt haDDA GKEMG AMeYK etVKS tSFNa FPaEE 
+XMeDA theaQ thGKG AatKS ADSFN EGFGN KaHhQ HGFth eMQRI eYtSF 
+VhSYh SaFaD XMeGF ehQFP KePaF PMSWt XMeHa KateY SHheK MRQtS 
+YGFAe MMtha tthSM SMeFt SKeDX FeVtG Eethe GRIeY tGAth GMeVh 
+GSFUe FtePt heMXM teEha MaHHa KeFtD XReeF tGYGF YeaDt hatth 
+eMeYh aKaYt eKMYG FUeXa EeMMa NeaFP tGNSU etheS Peath atthe 
+XaKet heEeK eKaFP GEMBe tYheM GAYhS DPKeF aKthQ KYGFa FPGXD 
+ethea PUeFt QKeGA thePa FYSFN EeF
+```
+
+`the aPUeFt` este interesant, deoarece urmează the.
+
+`t haDD` tot este foarte interesant. Cel mai probabil este cuvântul than și urmează cuvândtul care începe cu N.
+
+Vom substitui D = N.
+
+```
+SaEAa SKnXA aESnS aKVSt hannA GKEMG AMeYK etVKS tSFNa FPaEE 
+XMenA theaQ thGKG AatKS AnSFN EGFGN KaHhQ HGFth eMQRI eYtSF 
+VhSYh SaFan XMeGF ehQFP KePaF PMSWt XMeHa KateY SHheK MRQtS 
+YGFAe MMtha tthSM SMeFt SKenX FeVtG Eethe GRIeY tGAth GMeVh 
+GSFUe FtePt heMXM teEha MaHHa KeFtn XReeF tGYGF Yeant hatth 
+eMeYh aKaYt eKMYG FUeXa EeMMa NeaFP tGNSU etheS Peath atthe 
+XaKet heEeK eKaFP GEMBe tYheM GAYhS nPKeF aKthQ KYGFa FPGXn 
+ethea PUeFt QKeGA thePa FYSFN EeF
+```
+
+`theS Peath at` - "SPea" este separat. "SPea" este cel mai probabil "idea".
+
+```
+iaEAa iKnXA aEini aKVit hannA GKEMG AMeYK etVKi tiFNa FdaEE 
+XMenA theaQ thGKG AatKi AniFN EGFGN KaHhQ HGFth eMQRI eYtiF 
+VhiYh iaFan XMeGF ehQFd KedaF dMiWt XMeHa KateY iHheK MRQti 
+YGFAe MMtha tthiM iMeFt iKenX FeVtG Eethe GRIeY tGAth GMeVh 
+GiFUe Ftedt heMXM teEha MaHHa KeFtn XReeF tGYGF Yeant hatth 
+eMeYh aKaYt eKMYG FUeXa EeMMa NeaFd tGNiU ethei death atthe 
+XaKet heEeK eKaFd GEMBe tYheM GAYhi ndKeF aKthQ KYGFa FdGXn 
+ethea dUeFt QKeGA theda FYiFN EeF
+```
+
+`thiM`, M = S
+
+```
+iaEAa iKnXA aEini aKVit hannA GKEsG AseYK etVKi tiFNa FdaEE 
+XsenA theaQ thGKG AatKi AniFN EGFGN KaHhQ HGFth esQRI eYtiF 
+VhiYh iaFan XseGF ehQFd KedaF dsiWt XseHa KateY iHheK sRQti 
+YGFAe sstha tthis iseFt iKenX FeVtG Eethe GRIeY tGAth GseVh 
+GiFUe Ftedt hesXs teEha saHHa KeFtn XReeF tGYGF Yeant hatth 
+eseYh aKaYt eKsYG FUeXa Eessa NeaFd tGNiU ethei death atthe 
+XaKet heEeK eKaFd GEsBe tYhes GAYhi ndKeF aKthQ KYGFa FdGXn 
+ethea dUeFt QKeGA theda FYiFN EeF
+```
+
+`eFt iKe` = sau entire, sau entice. Pare că n-am avut dreptate cu N. Vom substitui F la N.
+
+```
+iaEAa iKDXA aEiDi aKVit haDDA GKEsG AseYK etVKi tinNa ndaEE 
+XseDA theaQ thGKG AatKi ADinN EGnGN KaHhQ HGnth esQRI eYtin 
+VhiYh ianaD XseGn ehQnd Kedan dsiWt XseHa KateY iHheK sRQti 
+YGnAe sstha tthis isent iKeDX neVtG Eethe GRIeY tGAth GseVh 
+GinUe ntedt hesXs teEha saHHa KentD XReen tGYGn YeaDt hatth 
+eseYh aKaYt eKsYG nUeXa Eessa Neand tGNiU ethei death atthe 
+XaKet heEeK eKand GEsBe tYhes GAYhi DdKen aKthQ KYGna ndGXD 
+ethea dUent QKeGA theda nYinN Een
+```
+
+`the sXsteE has` = the system has.
+
+```
+iamAa iKDyA amiDi aKVit haDDA GKmsG AseYK etVKi tinNa ndamm 
+yseDA theaQ thGKG AatKi ADinN mGnGN KaHhQ HGnth esQRI eYtin 
+VhiYh ianaD yseGn ehQnd Kedan dsiWt yseHa KateY iHheK sRQti 
+YGnAe sstha tthis isent iKeDy neVtG methe GRIeY tGAth GseVh 
+GinUe ntedt hesys temha saHHa KentD yReen tGYGn YeaDt hatth 
+eseYh aKaYt eKsYG nUeya messa Neand tGNiU ethei death atthe 
+yaKet hemeK eKand GmsBe tYhes GAYhi DdKen aKthQ KYGna ndGyD 
+ethea dUent QKeGA theda nYinN men
+```
+
+`has aHH aK entDy` — D este R.
+
+```
+iamAa iKryA amiri aKVit harrA GKmsG AseYK etVKi tinNa ndamm 
+yserA theaQ thGKG AatKi ArinN mGnGN KaHhQ HGnth esQRI eYtin 
+VhiYh ianar yseGn ehQnd Kedan dsiWt yseHa KateY iHheK sRQti 
+YGnAe sstha tthis isent iKery neVtG methe GRIeY tGAth GseVh 
+GinUe ntedt hesys temha saHHa Kentr yReen tGYGn Yeart hatth 
+eseYh aKaYt eKsYG nUeya messa Neand tGNiU ethei death atthe 
+yaKet hemeK eKand GmsBe tYhes GAYhi rdKen aKthQ KYGna ndGyr 
+ethea dUent QKeGA theda nYinN men
+```
+
+`YGnUey a messaNe` = convey a message.
+
+```
+iamAa iKryA amiri aKVit harrA oKmso AsecK etVKi tinga ndamm 
+yserA theaQ thoKo AatKi Aring monog KaHhQ Honth esQRI ectin 
+Vhich ianar yseon ehQnd Kedan dsiWt yseHa Katec iHheK sRQti 
+conAe sstha tthis isent iKery neVto methe oRIec toAth oseVh 
+oinUe ntedt hesys temha saHHa Kentr yReen tocon ceart hatth 
+esech aKact eKsco nUeya messa geand togiU ethei death atthe 
+yaKet hemeK eKand omsBe tches oAchi rdKen aKthQ Kcona ndoyr 
+ethea dUent QKeoA theda ncing men
+```
+
+`the adUent` = the advent.
+
+```
+iamAa iKryA amiri aKVit harrA oKmso AsecK etVKi tinga ndamm 
+yserA theaQ thoKo AatKi Aring monog KaHhQ Honth esQRI ectin 
+Vhich ianar yseon ehQnd Kedan dsiWt yseHa Katec iHheK sRQti 
+conAe sstha tthis isent iKery neVto methe oRIec toAth oseVh 
+oinve ntedt hesys temha saHHa Kentr yReen tocon ceart hatth 
+esech aKact eKsco nveya messa geand togiv ethei death atthe 
+yaKet hemeK eKand omsBe tches oAchi rdKen aKthQ Kcona ndoyr 
+ethea dvent QKeoA theda ncing men
+```
+
+`QRIect in Vhich`, `those Vho` — V = W
+
+```
+iamAa iKryA amiri aKwit harrA oKmso AsecK etwKi tinga ndamm 
+yserA theaQ thoKo AatKi Aring monog KaHhQ Honth esQRI ectin 
+which ianar yseon ehQnd Kedan dsiWt yseHa Katec iHheK sRQti 
+conAe sstha tthis isent iKery newto methe oRIec toAth osewh 
+oinve ntedt hesys temha saHHa Kentr yReen tocon ceart hatth 
+esech aKact eKsco nveya messa geand togiv ethei death atthe 
+yaKet hemeK eKand omsBe tches oAchi rdKen aKthQ Kcona ndoyr 
+ethea dvent QKeoA theda ncing men
+```
+
+`chaKacteKs` = characters. Totuși am greșit cu R.
+
+```
+iamAa irDyA amiDi arwit haDDA ormso Asecr etwri tinga ndamm 
+yseDA theaQ thoro Aatri ADing monog raHhQ Honth esQRI ectin 
+which ianaD yseon ehQnd redan dsiWt yseHa ratec iHher sRQti 
+conAe sstha tthis isent ireDy newto methe oRIec toAth osewh 
+oinve ntedt hesys temha saHHa rentD yReen tocon ceaDt hatth 
+esech aract ersco nveya messa geand togiv ethei death atthe 
+yaret hemer erand omsBe tches oAchi Ddren arthQ rcona ndoyD 
+ethea dvent QreoA theda ncing men
+```
+
+`which i anaDyse` = which I analyse.
+
+```
+iamAa irlyA amili arwit hallA ormso Asecr etwri tinga ndamm 
+yselA theaQ thoro Aatri Aling monog raHhQ Honth esQRI ectin 
+which ianal yseon ehQnd redan dsiWt yseHa ratec iHher sRQti 
+conAe sstha tthis isent irely newto methe oRIec toAth osewh 
+oinve ntedt hesys temha saHHa rentl yReen tocon cealt hatth 
+esech aract ersco nveya messa geand togiv ethei death atthe 
+yaret hemer erand omsBe tches oAchi ldren arthQ rcona ndoyl 
+ethea dvent QreoA theda ncing men
+```
+
+`i am Aairly Aamiliar` = I am fairly familiar.
+
+```
+i am fairly familiar with all forms of secret writing and am
+myself the aQthoro fa trifling monograHhQHon the sQRIectin 
+which i analyse one 
+hQndred = hundred, Q = U 
+and siWtyse Haratec iHher sRut 
+i confess that this is entirely new to me the 
+oRIect = object 
+of those who invented the system has 
+aHHarently = apparently
+been to conceal that these characters convey a message and to
+give the idea that the yarethemer erand omsBetches of children 
+arthur conandoyle the adventure of the dancing men
+```
+
+```
+i am fairly familiar with all forms of secret writing and am
+myself the author of a trifling monograph upon the subject in 
+which i analyse one hundred and 
+siWty, W = X
+separate ciphers but i confess that this is entirely new to me the 
+object of those who invented the system has apparently been to 
+conceal that these characters convey a message and to give the idea 
+that they are the mere random 
+sBetches = sketches 
+of children arthur conandoyle the adventure of the dancing men.
 ```
 
 ## Remarci
