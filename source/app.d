@@ -340,6 +340,7 @@ class Frequencies : IApp
                         cast(char) (missingCharacterIndex + 'A');
                 }
             }
+            valueChanged = true;
         }
 
         if (valueChanged)
