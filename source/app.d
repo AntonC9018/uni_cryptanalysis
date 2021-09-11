@@ -44,16 +44,15 @@ class Caesar : IApp
             {
                 if (str[i] == 0)
                     break;
-                if (str[i] == ' ')
-                {
-                    result[j++] = ' ';
-                    continue;
-                }
-                if (str[i] >= 'a' && str[i] <= 'z')
-                    str[i] += 'A' - 'a';
 
-                char t = cast(char)(str[i] - 'A' + shift) % letterCount + 'A';
-                result[j++] = t;
+                import std.ascii;
+                if (str[i].isAlpha())
+                {
+                    char t = cast(char)(str[i].toUpper() - 'A' + shift) % letterCount + 'A';
+                    result[j++] = t;
+                }
+                else
+                    result[j++] = str[i];
             }
             result[j] = 0;
         }
@@ -188,7 +187,7 @@ class Frequencies : IApp
     char[512] subst;
     AlphabetMap!ulong freqArray;
     AlphabetMap!SingleCharString letters;
-    CircularQueue!(char, 64) lastReassignedCharacters;
+    CircularQueue!(char, 32) lastReassignedCharacters;
 
     void setup()
     {
@@ -232,29 +231,113 @@ class Frequencies : IApp
 
         if (ImGui.Button("Normalize"))
         {
-            char[letterCount] usedLetterIndices;
+            int[letterCount] usedLetterIndices = -1;
             size_t[] indicesOfDuplicates;
 
             for (size_t i = 0; i < letterCount; i++)
             {
                 if (usedLetterIndices[letters.arrayof[i].ch - 'A'] != -1)
-                {
                     indicesOfDuplicates ~= i;
-                }
-                usedLetterIndices[letters.arrayof[i].ch - 'A'] = cast(char) i;
+                else
+                    usedLetterIndices[letters.arrayof[i].ch - 'A'] = cast(int) i;
             }
 
-            for (size_t i = 0; i < letterCount; i++)
+            foreach (missingCharacterIndex; 0..letterCount)
             {
-                if (usedLetterIndices[i] == -1)
+                // The given letter has not been assigned to any other letter.
+                // We need to find a duplicate letter changed last in the queue, and assign that this letter.
+                // However, the duplicates in the array only have the later occurences, so we also
+                // need to check all of their counterparts, which are at position of their letters
+                // in the usedLetterIndices array.
+                if (usedLetterIndices[missingCharacterIndex] == -1)
                 {
                     import std.algorithm;
-                    // char lowerPriorityCandidate = lastReassignedCharacters[].countUntil(usedLetterIndices[i] + 'A');
-                    // auto higherPriorityCandidates = lastReassignedCharacters[]
-                    //     .countUntil(usedLetterIndices[i] + 'A');
-                    // char toReplace = 
-                    letters.arrayof[indicesOfDuplicates.front].ch = cast(char) (i + 'A');
-                    indicesOfDuplicates.popFront();
+                    import std.typecons;
+
+                    size_t retrieveIndexToAssignLetterTo()
+                    {
+                        long minPosition = int.max;
+                        bool isDuplicate = false;
+                        size_t resultIndex;
+
+                        // So we go through all duplicates.
+                        foreach (index, duplicateIndex; indicesOfDuplicates)
+                        {
+                            // We find the other element that has been assigned the same character.
+                            // that this duplicated one was assigned.
+                            const otherIndexAssignedToSameCharacter = usedLetterIndices[letters.arrayof[duplicateIndex].ch - 'A'];
+                            assert(otherIndexAssignedToSameCharacter != -1);
+                            const positionOfOriginal = lastReassignedCharacters[].indexOf(otherIndexAssignedToSameCharacter + 'A');
+                            if (positionOfOriginal == -1)
+                            {
+                                // Here it's the perfect opportunity to push it out, since it's never been mentioned.
+                                // But first, the duplicate now should take its place.
+                                // We don't really have to modify the usedLetters thing, since it's not used after that.
+                                // So we just take out the duplicate at that index.
+                                indicesOfDuplicates = indicesOfDuplicates.remove(index);
+                                // Actually, we do use it when looking up characters at indices, right? Because we'll be iterating again after.
+                                // So we still need to assign here.
+                                usedLetterIndices[letters.arrayof[duplicateIndex].ch - 'A'] = cast(int) duplicateIndex;
+                                usedLetterIndices[missingCharacterIndex] = otherIndexAssignedToSameCharacter;
+                                return otherIndexAssignedToSameCharacter;
+                            }
+                            // Try to find the duplicate it in the queue.
+                            // The letter it's indexed by is what matters.
+                            const positionOfDuplicate = lastReassignedCharacters[].indexOf(cast(char) duplicateIndex + 'A');
+                            // If the duplicate was not mentioned, push it out immediately.
+                            if (positionOfDuplicate == -1)
+                            {
+                                indicesOfDuplicates = indicesOfDuplicates.remove(index);
+                                usedLetterIndices[missingCharacterIndex] = cast(int) duplicateIndex;
+                                return duplicateIndex;
+                            }
+                            // positionOfOriginal is met earlier in the table, so it has more priority to be taken out.
+                            if (positionOfOriginal <= positionOfDuplicate
+                                // But it's gotta be less than the current min.
+                                && positionOfOriginal <= minPosition)
+                            {
+                                // We can only have one non-duplicate, but it may replace itself here.
+                                // assert(!isDuplicate);
+
+                                minPosition = positionOfOriginal;
+                                resultIndex = otherIndexAssignedToSameCharacter;
+                                isDuplicate = false; 
+                            }
+                            
+                            // Otherwise check the duplicate cost
+                            else if (positionOfDuplicate < minPosition)
+                            {
+                                minPosition = positionOfDuplicate;
+                                resultIndex = index;
+                                isDuplicate = true;
+                            }
+                        }
+
+                        // If no candidates exist, this function would not get called
+                        assert(minPosition != int.max);
+
+                        if (isDuplicate)
+                        {
+                            const result = indicesOfDuplicates[resultIndex];
+                            usedLetterIndices[missingCharacterIndex] = cast(int) result;
+                            indicesOfDuplicates = indicesOfDuplicates.remove(resultIndex);
+                            return result;
+                        }
+
+                        // It doesn't matter which guy becomes owner.
+                        auto removedOwnerCharacter = letters.arrayof[resultIndex].ch;
+                        auto indexOfDuplicateThatBecomesOwner = indicesOfDuplicates.countUntil!(a => letters.arrayof[a].ch == removedOwnerCharacter);
+                        // The original now owns the missing character, becauыe it got assigned that character.
+                        usedLetterIndices[missingCharacterIndex] = cast(int) resultIndex;
+                        // This now owns the character that was assigned to the non-duplicate.
+                        usedLetterIndices[removedOwnerCharacter - 'A'] = cast(int) indicesOfDuplicates[indexOfDuplicateThatBecomesOwner];
+                        indicesOfDuplicates = indicesOfDuplicates.remove(indexOfDuplicateThatBecomesOwner);
+
+                        return resultIndex;
+                    }
+
+                    letters.arrayof[retrieveIndexToAssignLetterTo()].ch = 
+                        cast(char) (missingCharacterIndex + 'A');
                 }
             }
         }

@@ -21,11 +21,11 @@
 	"targetType": "executable",
 	"configurations": [
 		{
-			"targetName": "test",
-			"name": "unittest"
+			"name": "default"
 		},
 		{
-			"name": "default"
+			"targetName": "test",
+			"name": "unittest"
 		},
 		{
 			"name": "ast",
