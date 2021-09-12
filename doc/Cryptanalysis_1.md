@@ -15,7 +15,8 @@ Vedeți [Github](https://github.com/AntonC9018/uni_cryptanalysis).
     - [1. Cifrul Caesar.](#1-cifrul-caesar)
     - [2. Cifru cu substituție](#2-cifru-cu-substituție)
     - [Ex. 3 b)](#ex-3-b)
-    - [Ex.3 b)](#ex3-b)
+    - [Ex.3 a)](#ex3-a)
+    - [Metoda Kasiski Ex.4 a)](#metoda-kasiski-ex4-a)
   - [Remarci](#remarci)
     - [Binding-urile Imgui](#binding-urile-imgui)
     - [De ce nu m-am oprit la binding-urile inițiale pe care le-am găsit și înainte de aceste 4 zile?](#de-ce-nu-m-am-oprit-la-binding-urile-inițiale-pe-care-le-am-găsit-și-înainte-de-aceste-4-zile)
@@ -218,6 +219,8 @@ XCIRD SBDTH OCAUT FEWIO TEPEO OEEWT IWITN HSSTE GASCI RVIST LAOYD AYEST NEREA RE
 ABASE  SICTN  ELETT  ERCRE  KDEOU  HESFN  HUNNA  PEBEE  OUALU  DLATE  WBMLI  IXHOY  ATVHL 
 LHIOS ICTEJ TSAOW ARETN DSPER MNHYN LMAUU DRATE
 ```
+
+Vedeți și [programul](https://gist.github.com/run-dlang/3fdbd46ef24e88c8869e371cb2fa858a).
 
 Nu ne dă prea mult. Vom încerca din nou.
 
@@ -477,7 +480,7 @@ are databases of the letter frequencies which have been calculated by looking
 at millions of texts and are thus very highly accurate.
 ```
 
-### Ex.3 b)
+### Ex.3 a)
 ```
 SCEAC SKDXA CESDS CKVSO LCDDA GKEMG AMTYK TOVKS OSFNC FPCEE 
 XMTDA OLTCQ OLGKG ACOKS ADSFN EGFGN KCHLQ HGFOL TMQRI TYOSF 
@@ -558,7 +561,7 @@ XaKet heEeK eKaFd GEsBe tYhes GAYhi ndKeF aKthQ KYGFa FdGXn
 ethea dUeFt QKeGA theda FYiFN EeF
 ```
 
-`eFt iKe` = sau entire, sau entice. Pare că n-am avut dreptate cu N. Vom substitui F la N.
+`eFtiKe` = sau entire, sau entice. Pare că n-am avut dreptate cu N. Vom substitui F la N.
 
 ```
 iaEAa iKDXA aEiDi aKVit haDDA GKEsG AseYK etVKi tinNa ndaEE 
@@ -691,6 +694,219 @@ that they are the mere random
 sBetches = sketches 
 of children arthur conandoyle the adventure of the dancing men.
 ```
+
+### Metoda Kasiski Ex.4 a)
+
+```
+KTPCZNOOGHVFBTZVSBIOVTAGMKRLVAKMXAVUSTTPCNLCDVHXEOCPECPPHXHLNLFCKN
+YBPSQVXYPVHAKTAOLUHTITPDCSBPAJEAQZRIMCSYIMJHRABPPPHBUSKVXTAJAMHLNLC
+WZVSAQYVOYDLKNZLHWNWKJGTAGKQCMQYUWXTLRUSBSGDUAAJEYCJVTACAKTPCZPTJ
+WPVECCBPDBELKFBVIGCTOLLANPKKCXVOGYVQBNDMTLCTBVPHIMFPFNMDLEOFGQCUG
+FPEETPKYEGVHYARVOGYVQBNDWKZEHTTNGHBOIWTMJPUJNUADEZKUUHHTAQFCCBPDB
+ELCLEVOGTBOLEOGHBUEWVOGM 
+```
+
+Graficul arată toate combinațiile de 4 caractere care s-a repetat în secvența dată, distanțele dintre ele, iar tabelul arată divizorii distanței. 
+În fiecare caz avem distanțele divizibile cu 2, 5 și 10, deci lungimea cheii este probabil 2, 5 ori 10.
+
+![](images/lab1_kasiski1.png)
+
+Foarte repede încă am făcut [acest program mic](https://github.com/AntonC9018/uni_cryptanalysis/blob/989207474bdae8ac2d22a8e343a51f68a3b0ae82/source/stuff/kasiski.d) care arată primele 5 divizori de poziții ale repetițiilor și de câte ori s-au întâlnit. 
+Plusul limbajului D este că permite așa prototipare (și mai bine decât Python, și este mult mai rapid).
+
+```
+$ dmd kasiski.d & kasiski.exe
+5: 40
+2: 37
+10: 35
+3: 17
+15: 17
+```
+
+Cel mai probabil lungimea cheii este 5.
+
+![](images/lab1_kasinski_frequencies1.png)
+
+Aici am setat shift-ul să corespundă frecvențelor literelor E și T. 
+Celelalte litere comune tot trebuie să fie aproximativ asemănători ca la graficul frecvențelor, însă E și T sunt cele principale după care mereu ne orientăm.
+
+```
+iTPCZ
+lOOGH
+tFBTZ
+tSBIO
+tTAGM
+iRLVA
+iMXAV
+sSTTP
+aNLCD
+tHXEO
+aPECP
+nHXHL
+lLFCK
+lYBPS
+oVXYP
+tHAKT
+yOLUH
+rITPD
+aSBPA
+hEAQZ
+pIMCS
+wIMJH
+pABPP
+nHBUS
+iVXTA
+hAMHL
+lLCWZ
+tSAQY
+tOYDL
+iNZLH
+uNWKJ
+eTAGK
+oCMQY
+sWXTL
+pUSBS
+eDUAA
+hEYCJ
+tTACA
+iTPCZ
+nTJWP
+tECCB
+nDBEL
+iFBVI
+eCTOL
+jANPK
+iCXVO
+eYVQB
+lDMTL
+aTBVP
+fIMFP
+dNMDL
+cOFGQ
+aUGFP
+cETPK
+wEGVH
+wARVO
+eYVQB
+lDWKZ
+cHTTN
+eHBOI
+uTMJP
+sJNUA
+bEZKU
+sHHTA
+oFCCB
+nDBEL
+aLEVO
+eTBOL
+cOGHB
+sEWVO
+eM
+```
+
+Din acestea vom selecta liniile care încep cu T.
+
+```
+tFBTZ
+tSBIO
+tTAGM
+tHXEO
+tHAKT
+tSAQY
+tOYDL
+tTACA
+tECCB
+```
+
+H nu poate fi mapată la H?, deci T este cel mai probabil mapat la H.
+
+```
+trBTZ
+teBIO
+tfAGM
+ttXEO
+ttAKT
+teAQY
+taYDL
+tfACA
+tqCCB
+```
+
+Însă după frecvența shift-ul 0 merge cel mai bine pentru al 2 subcifru.
+
+![](images/lab1_kasinski_frequencies2.png)
+
+```
+tfBTZ
+tsBIO
+ttAGM
+thXEO
+thAKT
+tsAQY
+toYDL
+ttACA
+teCCB
+```
+
+Aceasta arată mai credibil.
+
+Vom încerca să analizăm ceva legat cu vocale.
+
+```
+itPCZ loOGH tfBTZ tsBIO ttAGM irLVA imXAV ssTTP anLCD thXEO apECP nhXHL llFCK lyBPS ovXYP thAKT yoLUH riTPD asBPA heAQZ piMCS wiMJH paBPP nhBUS ivXTA haMHL llCWZ tsAQY toYDL inZLH unWKJ etAGK ocMQY swXTL puSBS edUAA heYCJ ttACA itPCZ ntJWP teCCB ndBEL ifBVI ecTOL jaNPK icXVO eyVQB ldMTL atBVP fiMFP dnMDL coFGQ auGFP ceTPK weGVH waRVO eyVQB ldWKZ chTTN ehBOI utMJP sjNUA beZKU shHTA ofCCB ndBEL alEVO etBOL coGHB seWVO em 
+```
+
+`itPCZ lo`. Nu există cuvintele de forma `it...l*`, însă există 2 cuvinte de forma `it...`: itchy și items. Vom încerca items și vom vedea ce se ne dă substituțiile. `itchy` este prea rar și probabil nu va apărea.
+
+```
+items lodqa tfqds tsqsh ttpqf iraft immko ssidi anamw thmoh aptmi nhmre llumd lyqzl ovmii thpum yoaea riizw asqzt hepas pibml wibta paqzi nhqel ivmdt habre llrgs tspar tonne inova unluc etpqd ocbar swmde puhll edjkt henmc ttpmt items ntygi termu ndqoe ifqfb eciye jaczd icmfh eykau ldbde atqfi fibpi dnbne couqj auvpi ceizd wevfa wagfh eykau ldlus chidg ehqyb utbti sjcet beoun shwdt ofrmu ndqoe altfh etqye covru selfh em 
+```
+
+Aceasta implică că `itPCZ` nu poate un singur cuvând. `item` tot nu va lucra (dă combinații imposibile în alte locuri). Înseamnă că ori `it` este un cuvânt aparte, ori `itP` este *its*.
+Deci cel mai probabil `it` este aparte. Atunci ori `PCZ loOGH t` este ori un singur cuvânt, ori mai multe, dar începe cu `PCZ`. `P` nu poate fi un cuvânt de o singură literă (I sau A), deoarece aceste cuvinte nu pot urma cuvântul `it`.
+
+Cuvintele cave se termină cu LO sunt rare, deci LO este ori la începutul cuvântului (log, look, long), ori într-un cuvânt (dialog, prolog, ..logy). Pentru test vom încerca `long`, fiindcă îmi pare că combinația *it is a long` ar fi plausibilă.
+
+```
+itocZ longH tfatZ tsaiO ttzgM irkvA imwaV ssstP ankcD thweO apdcP nhwhL llecK lyapS ovwyP thzkT yokuH rispD asapA hezqZ pilcS wiljH paapP nhauS ivwtA halhL llbwZ tszqY toxdL inylH unvkJ etzgK oclqY swwtL purbS edtaA hexcJ ttzcA itocZ ntiwP tebcB ndaeL ifavI ecsoL jampK icwvO eyuqB ldltL atavP filfP dnldL coegQ auffP cespK wefvH waqvO eyuqB ldvkZ chstN ehaoI utljP sjmuA beykU shgtA ofbcB ndaeL aldvO etaoL cofhB sevvO 
+```
+
+`itocZ longH`, ocZ implauzibil. Încercăm `log`
+
+```
+ithCZ logGH tftTZ tstIO ttsGM irdVA impAV sslTP andCD thpEO apwCP nhpHL llxCK lytPS ovpYP thsKT yodUH rilPD astPA hesQZ pieCS wieJH patPP nhtUS ivpTA haeHL lluWZ tssQY toqDL inrLH unoKJ etsGK oceQY swpTL pukBS edmAA heqCJ ttsCA ithCZ ntbWP teuCB ndtEL iftVI eclOL jafPK icpVO eynQB ldeTL attVP fieFP dneDL coxGQ auyFP celPK weyVH wajVO eynQB ldoKZ chlTN ehtOI uteJP sjfUA berKU shzTA ofuCB ndtEL alwVO ettOL coyHB seoVO 
+```
+
+`tft`, `llx` - combinații imposibile. Încercăm și `look`.
+
+```
+itpCZ looGH tfbTZ tsbIO ttaGM irlVA imxAV sstTP anlCD thxEO apeCP nhxHL llfCK lybPS ovxYP thaKT yolUH ritPD asbPA heaQZ pimCS wimJH pabPP nhbUS ivxTA hamHL llcWZ tsaQY toyDL inzLH unwKJ etaGK ocmQY swxTL pusBS eduAA heyCJ ttaCA itpCZ ntjWP tecCB ndbEL ifbVI ectOL janPK icxVO eyvQB ldmTL atbVP fimFP dnmDL cofGQ augFP cetPK wegVH warVO eyvQB ldwKZ chtTN ehbOI utmJP sjnUA bezKU shhTA ofcCB ndbEL aleVO etbOL cogHB sewVO
+```
+
+`dnm` - imposibil.
+Ce dacă `itPCZ` este *it is`
+
+```
+itis. lohw. tfuj. tsuy. tttw. irel. imqq. ssmj. anes. thqu. apxs. nhqx. llys. lyuf. ovqo. thta. yoek. rimf. asuf. hetg. pifs. wifz. pauf. nhuk. ivqj. hafx. llvm. tstg. tort. insb. unpa. ettw. ocfg. swqj. pulr. ednq. hers. ttts. itis. ntcm. tevs. nduu. iful. ecme. jagf. icql. eyog. ldfj. atul. fifv. dnft. coyw. auzv. cemf. wezl. wakl. eyog. ldpa. chmj. ehue. utfz. sjgk. besa. shaj. ofvs. nduu. alxl. etue. cozx. sepl. 
+```
+
+Imposibil.
+
+Am o altă idee. Am făcut un program ce calculează devierile de la distribuția literelor normale, pe urmă încearcă toate variantele cifrurilor lui Caesar pentru a găsi cele mai probabile variante.
+
+A LUCRAT IMEDIAT!
+
+```
+IT WAS LOVE AT FIRST SIGHT THE FIRST TIME YOSSARIAN SAW THE CHAPLAIN HE FELL 
+MADLY IN LOVE WITH HIM YOSSARIAN WAS IN THE HOSPITAL WITH A PAIN IN HIS LIVER 
+THAT FELL JUST SHORT OF BEING JAUNDICE THE DOCTOR SWERE PUZZLED BY THE FACT 
+THAT IT WASNT QUITE JAUNDICE IF IT BECAME JAUNDICE THEY COULD TREAT IT IF IT 
+DIDNT BECOME JAUNDICE AND WENT AWAY THEY COULD DISCHARGE HIM BUT THIS JUST 
+BEGIN SHORT OF JAUNDICE ALL THE TIME CONFUSED THEM
+```
+
+
+
 
 ## Remarci
 
