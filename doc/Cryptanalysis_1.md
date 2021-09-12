@@ -259,7 +259,7 @@ QNTSX TKteC tXaSI aWeth ZXAeW DhNLh QDaHH ZWate
 
 Deja vedem cuvintele the, that. 
 
-theRe: poate fi theme, these sau there. Deci $ s(R) \in { M, S, R } $.
+theRe: poate fi theme, these sau there. Deci $ s(R) \in \\{ M, S, R \\} $.
 
 Ne uităm la trigramele cu A, străduindu-se să găsim AND: aQD, aSL, aXN, aQN, aUU, aWN, aSL, aWQ, aUU, aWX, aWQ, aSX, aNS, aSL, aWL, aSI, aSI, aXK, aSL, aQH, aSI, aHH.
 
@@ -855,7 +855,7 @@ teCCB
 
 Aceasta arată mai credibil.
 
-Vom încerca să analizăm ceva legat cu vocale.
+Vom încerca să analizăm ceva legat cu vocale?
 
 ```
 itPCZ loOGH tfBTZ tsBIO ttAGM irLVA imXAV ssTTP anLCD thXEO apECP nhXHL llFCK lyBPS ovXYP thAKT yoLUH riTPD asBPA heAQZ piMCS wiMJH paBPP nhBUS ivXTA haMHL llCWZ tsAQY toYDL inZLH unWKJ etAGK ocMQY swXTL puSBS edUAA heYCJ ttACA itPCZ ntJWP teCCB ndBEL ifBVI ecTOL jaNPK icXVO eyVQB ldMTL atBVP fiMFP dnMDL coFGQ auGFP ceTPK weGVH waRVO eyVQB ldWKZ chTTN ehBOI utMJP sjNUA beZKU shHTA ofCCB ndBEL alEVO etBOL coGHB seWVO em 
@@ -867,7 +867,7 @@ itPCZ loOGH tfBTZ tsBIO ttAGM irLVA imXAV ssTTP anLCD thXEO apECP nhXHL llFCK ly
 items lodqa tfqds tsqsh ttpqf iraft immko ssidi anamw thmoh aptmi nhmre llumd lyqzl ovmii thpum yoaea riizw asqzt hepas pibml wibta paqzi nhqel ivmdt habre llrgs tspar tonne inova unluc etpqd ocbar swmde puhll edjkt henmc ttpmt items ntygi termu ndqoe ifqfb eciye jaczd icmfh eykau ldbde atqfi fibpi dnbne couqj auvpi ceizd wevfa wagfh eykau ldlus chidg ehqyb utbti sjcet beoun shwdt ofrmu ndqoe altfh etqye covru selfh em 
 ```
 
-Aceasta implică că `itPCZ` nu poate un singur cuvând. `item` tot nu va lucra (dă combinații imposibile în alte locuri). Înseamnă că ori `it` este un cuvânt aparte, ori `itP` este *its*.
+Aceasta implică că `itPCZ` nu poate fi un singur cuvând. `item` tot nu va lucra (dă combinații imposibile în alte locuri). Înseamnă că ori `it` este un cuvânt aparte, ori `itP` este *its*.
 Deci cel mai probabil `it` este aparte. Atunci ori `PCZ loOGH t` este ori un singur cuvânt, ori mai multe, dar începe cu `PCZ`. `P` nu poate fi un cuvânt de o singură literă (I sau A), deoarece aceste cuvinte nu pot urma cuvântul `it`.
 
 Cuvintele cave se termină cu LO sunt rare, deci LO este ori la începutul cuvântului (log, look, long), ori într-un cuvânt (dialog, prolog, ..logy). Pentru test vom încerca `long`, fiindcă îmi pare că combinația *it is a long` ar fi plausibilă.
@@ -929,7 +929,7 @@ AS CAESAR CIPHER IT IS A SHIT CIPHER WITH THE KEYSET TO THREE EACH
 CHARACTER IN THE PLAIN TEXT IS SHIFTER THREE CHARACTERS O CREATE A CIPHER TEXT
 ```
 
-3 greșeli în text aparent nu au avut nici un efect asupra frecvenței literelor, deoarece este primul rezulat.
+3 greșeli în text aparent nu au avut nici un efect asupra frecvenței literelor, deoarece primul rezulat este deja corect.
 
 Cheia este 2(C) 14(O) 3(D) 4(E).
 
