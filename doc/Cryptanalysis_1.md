@@ -14,7 +14,7 @@ Vedeți [Github](https://github.com/AntonC9018/uni_cryptanalysis).
   - [Exercițiile](#exercițiile)
     - [1. Cifrul Caesar.](#1-cifrul-caesar)
     - [2. Cifru cu substituție](#2-cifru-cu-substituție)
-    - [Ex. 3 b)](#ex-3-b)
+    - [Ex.3 b)](#ex3-b)
     - [Ex.3 a)](#ex3-a)
     - [Metoda Kasiski Ex.4 a)](#metoda-kasiski-ex4-a)
     - [Metoda Kasiski Ex.4 b)](#metoda-kasiski-ex4-b)
@@ -196,7 +196,7 @@ Substituțiile finale:
 
 ![](images/lab1_sub4.png)
 
-### Ex. 3 b)
+### Ex.3 b)
 
 ```
 YMJRJ  YMTIT  QTLDG  JMNSI  KWJVZ  JSHDF  SFQDX  NXWJQ  NJXTS  YMJKF  HYYMF  YNSFS  DQFSL 
@@ -1051,4 +1051,5 @@ Mai necesită prea multe lucruri pentru a fi considerat plăcut de utilizat, în
 
 În ImGui există 2 ramure — `master` și `docking`. 
 Docking-ul este foarte interesant, deoarece permite gruparea comodă a ferestrelor, însă binding-urile inițiale nu l-au suportat.
-De aceea
+
+În sfârșit nu prea am utilizat interfața oricum, deci am pierdut acel timp de fapt în zadar, ce se întâmplă. 
