@@ -113,7 +113,7 @@ auto getLikelyShifts(string str, size_t keyLength, size_t letterIndex)
 
 void main()
 {
-    string s = `KTPCZNOOGHVFBTZVSBIOVTAGMKRLVAKMXAVUSTTPCNLCDVHXEOCPECPPHXHLNLFCKNYBPSQVXYPVHAKTAOLUHTITPDCSBPAJEAQZRIMCSYIMJHRABPPPHBUSKVXTAJAMHLNLCWZVSAQYVOYDLKNZLHWNWKJGTAGKQCMQYUWXTLRUSBSGDUAAJEYCJVTACAKTPCZPTJWPVECCBPDBELKFBVIGCTOLLANPKKCXVOGYVQBNDMTLCTBVPHIMFPFNMDLEOFGQCUGFPEETPKYEGVHYARVOGYVQBNDWKZEHTTNGHBOIWTMJPUJNUADEZKUUHHTAQFCCBPDBELCLEVOGTBOLEOGHBUEWVOGM`;
+    string s = `LIOMWGFEGGDVWGHHCQUCRHRWAGWIOWQLKGZETKKMEVLWPCZVGTHVTSGXQOVGCSVETQLTJSUMVWVEUVLXEWSLGFZMVVWLGYHCUSWXQHKVGSHEEVFLCFDGVSUMPHKIRZDMPHHBVWVWJWIXGFWLTSHGJOUEEHHVUCFVGOWICQLTJSUXGLW`;
 
     int[25] divisors; 
     auto things = findRepeatingPatters(s).map!`a.value`.joiner;
@@ -135,10 +135,10 @@ void main()
     
     // The window is probably larger than 3
     foreach (keyLength; sorted
-        // .filter!"a.index > 3 && a.value > 0"
-        .map!"a.index".take(3))
+        .filter!"a.index > 3 && a.value > 0"
+        .map!"a.index".take(2))
     {
-        enum numberOfTries = 2;
+        enum numberOfTries = 4;
         auto storedCombos = iota(keyLength).map!(
             i => getLikelyShifts(s, keyLength, i).take(numberOfTries).array).array;
         
@@ -148,13 +148,14 @@ void main()
         auto keys = new int[](keyLength);
         size_t currentIndex = 0;
 
-        while (currentIndex < keyLength)
+        while (currentIndex < keyLength - 1)
         {
             write("Trying shifts ");
 
             foreach (i, shiftIndex; keys)
             {
-                write(storedCombos[i][shiftIndex], "(", cast(char)(storedCombos[i][shiftIndex] + 'A'), ") ");
+                auto inverseShift = letterCount - storedCombos[i][shiftIndex];
+                write(inverseShift, "(", cast(char)(inverseShift + 'A'), ") ");
             } 
             writeln();
 
