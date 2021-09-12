@@ -113,7 +113,9 @@ auto getLikelyShifts(string str, size_t keyLength, size_t letterIndex)
 
 void main()
 {
-    string s = `LIOMWGFEGGDVWGHHCQUCRHRWAGWIOWQLKGZETKKMEVLWPCZVGTHVTSGXQOVGCSVETQLTJSUMVWVEUVLXEWSLGFZMVVWLGYHCUSWXQHKVGSHEEVFLCFDGVSUMPHKIRZDMPHHBVWVWJWIXGFWLTSHGJOUEEHHVUCFVGOWICQLTJSUXGLW`;
+    string s = `RAFFXSBULWIMZVJVWOQUUMEWSAANPEO`;
+
+    s = s.replace(" ", "");
 
     int[25] divisors; 
     auto things = findRepeatingPatters(s).map!`a.value`.joiner;
@@ -138,7 +140,7 @@ void main()
         .filter!"a.index > 3 && a.value > 0"
         .map!"a.index".take(2))
     {
-        enum numberOfTries = 4;
+        enum numberOfTries = 2;
         auto storedCombos = iota(keyLength).map!(
             i => getLikelyShifts(s, keyLength, i).take(numberOfTries).array).array;
         
@@ -154,7 +156,7 @@ void main()
 
             foreach (i, shiftIndex; keys)
             {
-                auto inverseShift = letterCount - storedCombos[i][shiftIndex];
+                auto inverseShift = (letterCount - storedCombos[i][shiftIndex]) % letterCount;
                 write(inverseShift, "(", cast(char)(inverseShift + 'A'), ") ");
             } 
             writeln();

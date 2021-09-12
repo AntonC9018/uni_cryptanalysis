@@ -19,6 +19,7 @@
 		"/NODEFAULTLIB:libucrt"
 	],
 	"targetType": "executable",
+	"excludedSourceFiles": ["source/stuff/*"],
 	"configurations": [
 		{
 			"name": "default"
