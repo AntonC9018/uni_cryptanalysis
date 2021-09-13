@@ -30,3 +30,10 @@ Leave a star as a way to say "Thank you". Enjoy!
 ### Linux
 
 If you're a Linux geek, you should be able to build ImGui and GLFW youself (you're probably smarter than I am at this).
+
+
+## Debugging
+
+You can build and run in VSCode by hitting F5. 
+- For this though you will need to install the [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools). 
+- To be able to set breakpoints, enable the setting "Allow breakpoints everywhere".
