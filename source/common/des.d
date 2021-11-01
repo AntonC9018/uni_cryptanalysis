@@ -153,7 +153,8 @@ immutable ubyte[] iteration_shift = [
  * key: 64 bit key for encryption/decryption
  * mode: 'e' = encryption; 'd' = decryption
  */
-public ulong crypt(ulong input, ulong key, Flag!"encrypt" encrypt) @nogc pure nothrow
+public:
+ulong crypt(ulong input, ulong key, Flag!"encrypt" encrypt) @nogc pure nothrow
 {
     /* 8 bits */
     ubyte row, column;
@@ -311,4 +312,26 @@ unittest
         result = crypt(result, result, No.encrypt);
         assert(result == expectedResult.decryption);
     }
+}
+
+ulong encrypt(ulong input, ulong key) { return crypt(input, key, Yes.encrypt); }
+ulong decrypt(ulong input, ulong key) { return crypt(input, key, No.encrypt); }
+
+ulong adjustKeyParity(ulong key)
+{
+    foreach (byteIndex; 0..8)
+    {
+        size_t shift = byteIndex * 8;
+        ulong ithByte = (key >> shift) & 0xff;
+        ulong parityCounter = 1;
+        foreach (bitShift; 0..7)
+            parityCounter ^= (ithByte >> bitShift) & 1;
+        key &= ~((cast(ulong) 1) << (shift + 7));
+        key |= (parityCounter << (shift + 7));
+    }
+    return key;
+}
+unittest
+{
+    assert(adjustKeyParity(0x12345688_00000000) == 0x9234D608_80808080);
 }

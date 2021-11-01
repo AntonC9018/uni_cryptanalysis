@@ -1,4 +1,4 @@
-module main;
+module lab1.main;
 import std.stdio;
 import initialization;
 
