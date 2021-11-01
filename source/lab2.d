@@ -23,8 +23,8 @@ void main()
     writefln("%016X", key);
 
     enum numKnownBits = 50;
-    // ulong keyKnownBitsMask = getRandomMaskWithNSetBits(numKnownBits);
-    ulong keyKnownBitsMask = ulong.max >> (64 - numKnownBits);
+    ulong keyKnownBitsMask = getRandomMaskWithNSetBits(numKnownBits);
+    // ulong keyKnownBitsMask = ulong.max >> (64 - numKnownBits);
     ulong knownKeyPart = key & keyKnownBitsMask;
     // erase the key, so it's fair
     key = 0;

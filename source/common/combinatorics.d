@@ -8,17 +8,18 @@ ulong getRandomMaskWithNSetBits(ulong numOnes)
 }
 
 // https://cs.stackexchange.com/a/67669
-// TODO: fix this code, something does not work
 ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
 {
+    ulong initialNumOnes = numOnes;
     ulong bits = 0;
     for (ulong bitIndex = 63; numOnes > 0; bitIndex--)
     {
-        ulong nCk = nchoosek(bitIndex, numOnes);
-        writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
-        assert(bitIndex <= 63);
-        assert(bitIndex >= numOnes);
+        // Workaround, because it hits the binomial coefficient exactly sometimes and breaks.
+        if (bitIndex == 0 || ordinal < numOnes) 
+            return getRandomMaskWithNSetBits_decode(initialNumOnes, (ordinal + 1) % nchoosek(64, numOnes));
 
+        ulong nCk = nchoosek(bitIndex, numOnes);
+        // writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
         if (ordinal >= nCk)
         {
             ordinal -= nCk;
@@ -30,13 +31,14 @@ ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
 }
 unittest
 {
-    size_t randomNumber = getRandomMaskWithNSetBits(20);
+    enum numOnes = 20;
+    size_t randomNumber = getRandomMaskWithNSetBits(numOnes);
     // writefln("%x", randomNumber);
 
     size_t numSetBits = 0;
     foreach (bitIndex; 0..64)
         numSetBits += (randomNumber >> bitIndex) & 1;
-    assert(numSetBits == 20);
+    assert(numSetBits == numOnes);
 }
 
 
@@ -92,4 +94,5 @@ unittest
     assert(nchoosek(50, 5) == 2118760);
     assert(nchoosek(50, 48) == 1225);
     assert(nchoosek(63, 40) == 93993414551124795);
+    assert(nchoosek(64, 32) == 1832624140942590534);
 }
