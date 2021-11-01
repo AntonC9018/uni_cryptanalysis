@@ -7,12 +7,21 @@ import std.stdio;
 void main()
 {
     ulong[3] messages;
-    foreach (ref m; messages)
+    foreach (index, ref m; messages)
         m = uniform!ulong;
-    ulong key = des.adjustKeyParity(uniform!ulong);
-    
-    // Flag!"encrypt" encrypt = Yes.encrypt; // No.encrypt;
-    // ulong[3] encryptedMessages = messages[].map(m => des.crypt(m, key, encrypt)).staticArray;
 
-    writefln("0x%x", key);
+    ulong key = des.adjustKeyParity(uniform!ulong);
+    Flag!"encrypt" encrypt = Yes.encrypt; // No.encrypt;
+
+    typeof(messages) cryptedMessages;
+    foreach (index, ref em; cryptedMessages)
+        em = des.crypt(messages[index], key, encrypt);
+
+    foreach (i; 0..messages.length)
+        writefln("%016X -> %016X", messages[i], cryptedMessages[i]);
+    writefln("%X16", key);
+
+
+    // ulong keyKnownExtent = 
+
 }
