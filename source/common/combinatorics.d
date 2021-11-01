@@ -13,9 +13,11 @@ ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
     ulong bits = 0;
     for (ulong bitIndex = 63; numOnes > 0; bitIndex--)
     {
-        assert(bitIndex <= 63);
         ulong nCk = nchoosek(bitIndex, numOnes);
-        // writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
+        writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
+        assert(bitIndex <= 63);
+        assert(bitIndex >= numOnes);
+        
         if (ordinal >= nCk)
         {
             ordinal -= nCk;
