@@ -4,7 +4,10 @@ import std.stdio;
 ulong getRandomMaskWithNSetBits(ulong numOnes)
 {
     import std.random;
-    return getRandomMaskWithNSetBits_decode(numOnes, uniform!ulong % nchoosek(64, numOnes));
+    if (numOnes > 32)
+        return ~getRandomMaskWithNSetBits(64 - numOnes);
+    ulong lowerBound = numOnes;
+    return getRandomMaskWithNSetBits_decode(numOnes, uniform!ulong % (nchoosek(64, numOnes) - lowerBound) + lowerBound);
 }
 
 // https://cs.stackexchange.com/a/67669
