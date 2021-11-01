@@ -1,20 +1,39 @@
 module common.combinatorics;
+import std.stdio;
+
+ulong getRandomMaskWithNSetBits(ulong numOnes)
+{
+    import std.random;
+    return getRandomMaskWithNSetBits_decode(numOnes, uniform!ulong % nchoosek(64, numOnes));
+}
 
 // https://cs.stackexchange.com/a/67669
-ulong decode(ulong ones, ulong ordinal)
+ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
 {
     ulong bits = 0;
-    for (ulong bit = 63; ones > 0; --bit)
+    for (ulong bitIndex = 63; numOnes > 0; bitIndex--)
     {
-        ulong nCk = nchoosek(bit, ones);
+        assert(bitIndex <= 63);
+        ulong nCk = nchoosek(bitIndex, numOnes);
+        // writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
         if (ordinal >= nCk)
         {
             ordinal -= nCk;
-            bits |= 1 << bit;
-            --ones;
+            bits |= (cast(ulong) 1) << bitIndex;
+            numOnes--;
         }
     }
     return bits;
+}
+unittest
+{
+    size_t randomNumber = getRandomMaskWithNSetBits(20);
+    // writefln("%x", randomNumber);
+
+    size_t numSetBits = 0;
+    foreach (bitIndex; 0..64)
+        numSetBits += (randomNumber >> bitIndex) & 1;
+    assert(numSetBits == 20);
 }
 
 
@@ -30,7 +49,10 @@ private ulong[] cache = [1];
 private ulong nchoosek_internal(ulong n, ulong k)
 {
     assert(k <= n);
-    ulong index = (n + 1) * n / 2 + k;
+    if (k == 0 || k == n)
+        return 1;
+
+    ulong index = (n + 1) * n / 2 + k - 1 - 2 * (n - 1);
     ulong targetLength = index + 1;
     if (cache.length >= targetLength)
     {
@@ -42,14 +64,8 @@ private ulong nchoosek_internal(ulong n, ulong k)
         cache.length = targetLength;
     }
 
-    ulong result;
-    if (k == 0 || k == n)
-        result = 1;
-    else
-        result = nchoosek_internal(n - 1, k) + nchoosek_internal(n - 1, k - 1);
-    
+    ulong result = nchoosek_internal(n - 1, k) + nchoosek_internal(n - 1, k - 1);
     cache[index] = result;
-    
     return result;
 }
 unittest
@@ -65,4 +81,8 @@ unittest
     assert(nchoosek(2, 2) == 1);
     assert(nchoosek(3, 2) == 3);
     assert(nchoosek(4, 2) == 6);
+    assert(nchoosek(4, 2) == 6);
+    assert(nchoosek(8, 4) == 70);
+    assert(nchoosek(50, 15) == 2250829575120);
+    assert(nchoosek(63, 40) == 93993414551124795);
 }

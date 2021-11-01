@@ -1,4 +1,5 @@
 static import des;
+import common.combinatorics;
 import std.random;
 import std.algorithm;
 import std.range;
@@ -22,6 +23,6 @@ void main()
     writefln("%X16", key);
 
 
-    // ulong keyKnownExtent = 
+    ulong keyKnownBitsMask = getRandomMaskWithNSetBits(40);
 
 }
