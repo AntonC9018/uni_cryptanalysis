@@ -1,56 +1,75 @@
 module stuff.diffs;
 
+import std.conv;
+import std.stdio;
+import std.algorithm;
+
 void main()
 {
-    import std.conv;
-    import std.stdio;
-
     immutable ubyte[16] subtitutionTable = [
         0x8, 0x5, 0x7, 0xA, 
         0x2, 0xC, 0xF, 0x9, 
         0x3, 0x1, 0xE, 0x0, 
         0x4, 0xB, 0x6, 0xD];
     
-    write("x,");
-    void writeNext(int i) { write(to!string(i, 16), ","); }
+    // stuff(subtitutionTable);
+    diffs(subtitutionTable);
+}
 
-    size_t maxRowIndex;
-    size_t maxValue;
-    size_t maxValueCount = 0;
+private void writeNext(int i) { writef("%1X,", i); }
 
-    foreach (i; 0..16)
+void diffs(in ubyte[16] subtitutionTable)
+{
+    size_t[16] getCounts(int constant)
     {
-        writeNext(i);
-    }
-    writeln();
-    foreach (i; 0..16)
-    {
-        writeNext(i);
         size_t[16] counts = 0;
-        foreach (j; 0..16)
+        foreach (message; 0..16)
         {
-            ubyte num = subtitutionTable[i] ^ subtitutionTable[j]; 
-            writeNext(num);
-            counts[num]++;
+            ubyte a = subtitutionTable[message] ^ subtitutionTable[message ^ constant]; 
+            counts[a]++;
         }
-
-        import std.algorithm : maxIndex;
-        size_t potentialMaxValue = counts[].maxIndex;
-        if (counts[potentialMaxValue] > maxValueCount)
-        {
-            maxValue = potentialMaxValue;
-            maxValueCount = counts[potentialMaxValue];
-            maxRowIndex = i;
-        }
-
-        writeln();
+        return counts;
     }
 
-    write(
-        "Max index is at row ", maxRowIndex, 
-        "; the prevalent value was ", maxValue, 
-        "; with count of ", maxValueCount,
-        ". The % = ");
-    writef("%2.2f", 100 * cast(float) maxValueCount / 16);
+    void writeTable(int constant)
+    {
+        write("m0,");
+        write("m1=m0+");
+        writeNext(constant);
+        write("S[m0],");
+        write("S[m1],");
+        write("S[m0]+S[m1],");
+        write("Hex value,Hex count");
+        writeln();
+
+        size_t[16] counts = getCounts(constant);
+
+        foreach (message; 0..16)
+        {
+            writeNext(message); // m0
+            writeNext(message ^ constant); // m1=m0+constant
+            writeNext(subtitutionTable[message]); // S[m0]
+            writeNext(subtitutionTable[message ^ constant]); // S[m1]
+            writeNext(subtitutionTable[message] ^ subtitutionTable[message ^ constant]);
+            writeNext(message); // iterator
+            writeNext(counts[message]); // counts
+            writeln();
+        }
+    }
+
+    size_t maxCountConstant = 0;
+    size_t maxCount = 0;
+    foreach (constant; 1..16)
+    {
+        size_t[16] counts = getCounts(constant);
+        size_t potentialMaxIndex = counts[].maxIndex;
+        if (counts[potentialMaxIndex] > maxCount)
+        {
+            maxCountConstant = constant;
+            maxCount = counts[potentialMaxIndex];
+        }
+    }
+
+    writeTable(maxCountConstant);
     writeln();
 }
