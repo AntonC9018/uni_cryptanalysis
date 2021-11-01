@@ -20,9 +20,11 @@ void main()
 
     foreach (i; 0..messages.length)
         writefln("%016X -> %016X", messages[i], cryptedMessages[i]);
-    writefln("%X16", key);
+    writefln("%016X", key);
 
-    ulong keyKnownBitsMask = getRandomMaskWithNSetBits(40);
+    enum numKnownBits = 50;
+    // ulong keyKnownBitsMask = getRandomMaskWithNSetBits(numKnownBits);
+    ulong keyKnownBitsMask = ulong.max >> (64 - numKnownBits);
     ulong knownKeyPart = key & keyKnownBitsMask;
     // erase the key, so it's fair
     key = 0;
@@ -34,10 +36,9 @@ void main()
     {
         currentKey = knownKeyPart | (unknownBitsAllSet & currentMask);
         currentMask |= keyKnownBitsMask;
-
         foreach (i; 0..messages.length)
         {
-            if (des.crypt(messages[i], key, encrypt) != cryptedMessages[i])
+            if (des.crypt(messages[i], currentKey, encrypt) != cryptedMessages[i])
             {
                 currentMask += 1;
                 continue outer;
@@ -49,5 +50,5 @@ void main()
     if (currentMask == 0)
         writeln("Could not find the key");
     else
-        writefln("Found the key. It is %016x", currentKey);
+        writefln("Found the key. It is %016X", currentKey);
 }

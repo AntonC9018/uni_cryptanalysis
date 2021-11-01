@@ -8,6 +8,7 @@ ulong getRandomMaskWithNSetBits(ulong numOnes)
 }
 
 // https://cs.stackexchange.com/a/67669
+// TODO: fix this code, something does not work
 ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
 {
     ulong bits = 0;
@@ -17,7 +18,7 @@ ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
         writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
         assert(bitIndex <= 63);
         assert(bitIndex >= numOnes);
-        
+
         if (ordinal >= nCk)
         {
             ordinal -= nCk;
@@ -86,5 +87,9 @@ unittest
     assert(nchoosek(4, 2) == 6);
     assert(nchoosek(8, 4) == 70);
     assert(nchoosek(50, 15) == 2250829575120);
+    assert(nchoosek(50, 2) == 1225);
+    assert(nchoosek(50, 3) == 19600);
+    assert(nchoosek(50, 5) == 2118760);
+    assert(nchoosek(50, 48) == 1225);
     assert(nchoosek(63, 40) == 93993414551124795);
 }
