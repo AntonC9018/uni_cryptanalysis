@@ -1,3 +1,5 @@
+// The program outputs a csv file for a given sustitution table (specified in main).
+// So run it with `diffs >> filename.csv`.
 module stuff.diffs;
 
 import std.conv;
@@ -12,7 +14,6 @@ void main()
         0x3, 0x1, 0xE, 0x0, 
         0x4, 0xB, 0x6, 0xD];
     
-    // stuff(subtitutionTable);
     diffs(subtitutionTable);
 }
 
