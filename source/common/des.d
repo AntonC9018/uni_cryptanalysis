@@ -319,16 +319,12 @@ ulong decrypt(ulong input, ulong key) { return crypt(input, key, No.encrypt); }
 
 ulong adjustKeyParity(ulong key)
 {
-    foreach (byteIndex; 0..8)
-    {
-        size_t shift = byteIndex * 8;
-        ulong ithByte = (key >> shift) & 0xff;
-        ulong parityCounter = 1;
-        foreach (bitShift; 0..7)
-            parityCounter ^= (ithByte >> bitShift) & 1;
-        key &= ~((cast(ulong) 1) << (shift + 7));
-        key |= (parityCounter << (shift + 7));
-    }
+    ulong everyByteFirstBitMask = 0x01010101_01010101;
+    ulong parityCounter = everyByteFirstBitMask;
+    foreach (bitShift; 0..7)
+        parityCounter ^= (key >> bitShift) & everyByteFirstBitMask;
+    key &= ~(everyByteFirstBitMask << 7);
+    key |= parityCounter << 7;
     return key;
 }
 unittest
