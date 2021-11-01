@@ -30,16 +30,18 @@ void main()
     ulong unknownBitsAllSet = ~keyKnownBitsMask;
     ulong currentKey;
 
-    while (currentMask != 0)
+    outer: while (currentMask != 0)
     {
         currentKey = knownKeyPart | (unknownBitsAllSet & currentMask);
         currentMask |= keyKnownBitsMask;
 
         foreach (i; 0..messages.length)
-        if (des.crypt(messages[i], key, encrypt) != cryptedMessages[i])
         {
-            currentMask += 1;
-            continue;
+            if (des.crypt(messages[i], key, encrypt) != cryptedMessages[i])
+            {
+                currentMask += 1;
+                continue outer;
+            }
         }
         break;
     }
