@@ -6,22 +6,16 @@ ulong getRandomMaskWithNSetBits(ulong numOnes)
     import std.random;
     if (numOnes > 32)
         return ~getRandomMaskWithNSetBits(64 - numOnes);
-    ulong lowerBound = numOnes;
-    return getRandomMaskWithNSetBits_decode(numOnes, uniform!ulong % (nchoosek(64, numOnes) - lowerBound) + lowerBound);
+    return getRandomMaskWithNSetBits_decode(numOnes, uniform!("[)", ulong)(0, nchoosek(64, numOnes)));
 }
 
 // https://cs.stackexchange.com/a/67669
 ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
 {
-    ulong initialNumOnes = numOnes;
     ulong bits = 0;
     for (ulong bitIndex = 63; numOnes > 0; bitIndex--)
     {
-        // Workaround, because it hits the binomial coefficient exactly sometimes and breaks.
-        if (bitIndex == 0 || ordinal < numOnes) 
-            return getRandomMaskWithNSetBits_decode(initialNumOnes, (ordinal + 1) % nchoosek(64, numOnes));
-
-        ulong nCk = nchoosek(bitIndex, numOnes);
+        ulong nCk = nchoosek(bitIndex, numOnes) - 1;
         // writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
         if (ordinal >= nCk)
         {
