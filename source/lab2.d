@@ -22,7 +22,7 @@ void main()
         writefln("%016X -> %016X", messages[i], cryptedMessages[i]);
     writefln("%016X", key);
 
-    enum numKnownBits = 55;
+    enum numKnownBits = 40;
     ulong keyKnownBitsMask = getRandomMaskWithNSetBits(numKnownBits);
     // ulong keyKnownBitsMask = ulong.max >> (64 - numKnownBits);
     ulong knownKeyPart = key & keyKnownBitsMask;
@@ -75,7 +75,7 @@ void main()
     // Create 2^N tasks, to compute things in parallel.
     // Every task starts with N unkown bits of the fixed key already preset
     // to a combination of zeros and ones.
-    size_t numAdditionalFixedBits = 2;
+    size_t numAdditionalFixedBits = 3;
     size_t numTasks = 2^^numAdditionalFixedBits;
     ulong initialChangingFixedMaskPart = getMaskOfFirstNUnsetBits(keyKnownBitsMask, numAdditionalFixedBits);
     ulong changingBitsAllSet = initialChangingFixedMaskPart;
