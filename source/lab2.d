@@ -22,13 +22,21 @@ void main()
         writefln("%016X -> %016X", messages[i], cryptedMessages[i]);
     writefln("%016X", key);
 
-    enum numKnownBits = 40;
+    enum numKnownBits = 50;
     ulong keyKnownBitsMask = getRandomMaskWithNSetBits(numKnownBits);
     // ulong keyKnownBitsMask = ulong.max >> (64 - numKnownBits);
     ulong knownKeyPart = key & keyKnownBitsMask;
     // erase the key, so it's fair
-    // key = 0;
-    
+    key = 0;
+
+    enum IgnoreParity = false;
+    static if (IgnoreParity)
+    {
+        // Since the parity bits don't matter, might as well at least just ignore them
+        // See the loop below for more potential optimization ideas.
+        keyKnownBitsMask |= des.parityBitsMask;
+    }
+
     static shared size_t numKeysCheckedSoFar = 0;
     // We have just one global cancellation token here, 
     // because it's a one-off app and I don't really care
@@ -59,6 +67,7 @@ void main()
                 {
                     size_t counterValue = atomicOp!"+="(numKeysCheckedSoFar, 1);
                     if (counterValue % 100000 == 0)
+                        // (most likely less due to the parity flags)
                         writeln(counterValue, " keys checked out of ", (cast(ulong) 1) << (64 - numKnownBits + 1));
                     continue outer;
                 }
@@ -81,26 +90,69 @@ void main()
     ulong changingBitsAllSet = initialChangingFixedMaskPart;
     ulong currentChangingFixedMaskPart = 0;
     ulong fixedMask = initialChangingFixedMaskPart | keyKnownBitsMask;
-    // writefln("Known %016X", keyKnownBitsMask);
-    // writefln("InitialChaning %016X", initialChangingFixedMaskPart);
-    // writefln("Fixed %016X", fixedMask);
-    // writefln("Known Part %016X", knownKeyPart);
+    writefln("Known %016X", keyKnownBitsMask);
+    writefln("InitialChaning %016X", initialChangingFixedMaskPart);
+    writefln("Fixed %016X", fixedMask);
+    writefln("Known Part %016X", knownKeyPart);
+    writeln();
 
     import std.parallelism;
-    auto tasks = new Task!(search, ulong, ulong)[](numTasks);
-    foreach (index, ref _task; tasks)
+    Task!(search, ulong, ulong)[] tasks;// = new Task!(search, ulong, ulong)[](numTasks);
+    foreach (index; 0..numTasks)
     {
-        ulong currentFixedPart = knownKeyPart | (changingBitsAllSet & currentChangingFixedMaskPart);
-        // writefln("CurrentFixed part %016X", currentFixedPart);
+        const currentFixedPart = knownKeyPart | (changingBitsAllSet & currentChangingFixedMaskPart);
+        writefln("CurrentFixed part %016X", currentFixedPart);
 
-        _task = scopedTask!search(fixedMask, currentFixedPart);
-        _task.executeInNewThread();
+        static if (!IgnoreParity)
+        {
+            // If the fixed part is apriori wrong (checking parity), skip it
+            // 1. find out the correct parity
+            ulong currentParity = currentFixedPart & des.parityBitsMask;
+            ulong correctParity = des.getKeyParity(currentFixedPart);
+            // 2. compute which bytes are fully fixed
+            ulong fullyFixedBytes = des.parityBitsMask;
+            foreach (bitIndexInByte; 0..8)
+                fullyFixedBytes &= fixedMask << bitIndexInByte;
+            // 3. for those bytes that are fixed, check if the parity matches
+            ulong parityFlagsOfFixedBytes = fullyFixedBytes & currentParity;
+            ulong correctParityOfFixedBytes = fullyFixedBytes & correctParity;
+            // Skip this task, since its work will be in vain.
+            if (parityFlagsOfFixedBytes != correctParityOfFixedBytes)
+            {
+                writefln("correctParity %016X", correctParity);
+                writefln("fixedMask %016X", fixedMask);
+                writefln("fullyFixedBytes %016X", fullyFixedBytes);
+                writefln("parityFlagsOfFixedBytes %016X", parityFlagsOfFixedBytes);
+                writefln("correctParityOfFixedBytes %016X", correctParityOfFixedBytes);
+                writeln("Skipping task number ", index);
+                writeln();
+                continue;
+            }
+        }
+
+/*
+        Other ideas:
+
+        1. Determine which bytes are fully known, or fully known due to parity initially,
+           and adjust the initial known bits mask based on that. There is a practically
+           substantial possibility of there being at least one fully known byte here.
+
+        2. Each process needs to know about this thing separately, checking the parity 
+           before evaluating DES.
+
+        There is substantial benefit in checking the parity bits, each parity bit involved 
+        halving the number of guesses.
+*/      
+
+        auto task = scopedTask!search(fixedMask, cast(ulong) currentFixedPart);
+        tasks ~= task;
+        task.executeInNewThread();
         writeln("Started task ", index);
 
         currentChangingFixedMaskPart = (currentChangingFixedMaskPart | ~initialChangingFixedMaskPart) + 1;
     }
     // writeln(currentChangingFixedMaskPart);
-    assert(currentChangingFixedMaskPart == 0);
+    // assert(currentChangingFixedMaskPart == 0);
 
     // Iterate until one of the tasks finishes having found a valid key.
     ulong foundKey = 0;

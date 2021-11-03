@@ -317,17 +317,24 @@ unittest
 ulong encrypt(ulong input, ulong key) { return crypt(input, key, Yes.encrypt); }
 ulong decrypt(ulong input, ulong key) { return crypt(input, key, No.encrypt); }
 
+enum everyByteFirstBitMask = 0x01010101_01010101;
+enum parityBitsMask = everyByteFirstBitMask << 7;
+
 ulong adjustKeyParity(ulong key)
 {
-    ulong everyByteFirstBitMask = 0x01010101_01010101;
-    ulong parityCounter = everyByteFirstBitMask;
-    foreach (bitShift; 0..7)
-        parityCounter ^= (key >> bitShift) & everyByteFirstBitMask;
-    key &= ~(everyByteFirstBitMask << 7);
-    key |= parityCounter << 7;
+    key &= ~parityBitsMask;
+    key |= getKeyParity(key);
     return key;
 }
 unittest
 {
     assert(adjustKeyParity(0x12345688_00000000) == 0x9234D608_80808080);
+}
+
+ulong getKeyParity(ulong key)
+{
+    ulong parityCounter = parityBitsMask;
+    foreach (bitShift; 1..8)
+        parityCounter ^= (key << (8 - bitShift)) & parityBitsMask;
+    return parityCounter;
 }
