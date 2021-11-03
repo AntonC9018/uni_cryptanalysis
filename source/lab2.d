@@ -91,7 +91,7 @@ void main()
                     size_t counterValue = atomicOp!"+="(numKeysCheckedSoFar, 1);
                     if (counterValue % 100000 == 0)
                         // (most likely less due to the parity flags)
-                        writeln(counterValue, " keys checked out of ", (cast(ulong) 1) << (64 - numKnownBits + 1));
+                        writeln(counterValue, " keys checked out of ", (cast(ulong) 1) << (64 - numKnownBits));
                     continue outer;
                 }
             }
