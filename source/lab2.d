@@ -5,6 +5,25 @@ import std.algorithm;
 import std.range;
 import std.stdio;
 
+/// `IgnoreParity = false` means processes will not be started if the parity 
+/// of the fixed key part is apriori wring.
+/// `IgnoreParity = true` means the parity bits are completely ignored (they are
+/// always just set to 0. 
+version (IgnoreParity)
+    enum IgnoreParity = true;
+else
+    enum IgnoreParity = false;
+    // enum IgnoreParity = true;
+
+/// The number of disclosed bits in the key.
+/// To test things quickly, set to ~50
+enum numKnownBits = 40;
+/// 2^numAdditionalFixedBits is the maximum number of processes
+/// that will be doing checks. When IgnoreParity is set to false, 
+/// most likely, it will be halved, due to how I resolve parity. 
+enum numAdditionalFixedBits = 3;
+
+
 void main()
 {
     static shared ulong[3] messages;
@@ -18,35 +37,39 @@ void main()
     foreach (index, ref em; cryptedMessages)
         em = des.crypt(messages[index], key, encrypt);
 
+    writefln("%16s -> %s", "Message", "DES(Message)");
     foreach (i; 0..messages.length)
         writefln("%016X -> %016X", messages[i], cryptedMessages[i]);
-    writefln("%016X", key);
+    writefln("Key = %016X", key);
 
-    enum numKnownBits = 50;
     ulong keyKnownBitsMask = getRandomMaskWithNSetBits(numKnownBits);
     // ulong keyKnownBitsMask = ulong.max >> (64 - numKnownBits);
-    ulong knownKeyPart = key & keyKnownBitsMask;
+    const knownKeyPart = key & keyKnownBitsMask;
     // erase the key, so it's fair
     key = 0;
 
-    enum IgnoreParity = false;
     static if (IgnoreParity)
     {
         // Since the parity bits don't matter, might as well at least just ignore them
         // See the loop below for more potential optimization ideas.
         keyKnownBitsMask |= des.parityBitsMask;
+        ulong numActuallyKnownBits = countBits(keyKnownBitsMask);
+    }
+    else
+    {
+        ulong numActuallyKnownBits = numKnownBits;
     }
 
     static shared size_t numKeysCheckedSoFar = 0;
-    // We have just one global cancellation token here, 
-    // because it's a one-off app and I don't really care
-    // Another way of doing it is to pass a pointer to a heap allocated value I guess?
-    // Or something like that idk. This works though.
+    /// We have just one global cancellation token here, 
+    /// because it's a one-off app and I don't really care
+    /// Another way of doing it is to pass a pointer to a heap allocated value I guess?
+    /// Or something like that idk. This works though.
     static shared bool isCancelled = false;
 
-    // `keyFixedMask` includes the known key part + the fixed bits
-    // `keyFixedPart` is the known key part + the fixed bits set to 0 or 1
-    static ulong search(ulong keyFixedMask, ulong keyFixedPart)
+    /// `keyFixedMask` includes the known key part + the fixed bits
+    /// `keyFixedPart` is the known key part + the fixed bits set to 0 or 1
+    static ulong search(ulong keyFixedMask, ulong keyFixedPart, ulong numKnownBits)
     {
         import core.atomic;
         // The mask which will be incremented until it reaches 0.
@@ -58,7 +81,7 @@ void main()
             if (isCancelled)
                 return 0;
 
-            ulong currentKey = keyFixedPart | (unknownBitsAllSet & currentMask);
+            const currentKey = des.adjustKeyParity(keyFixedPart | (unknownBitsAllSet & currentMask));
             currentMask = (currentMask | keyFixedMask) + 1;
 
             foreach (i; 0..messages.length)
@@ -81,51 +104,67 @@ void main()
         return 0;
     }
 
-    // Create 2^N tasks, to compute things in parallel.
-    // Every task starts with N unkown bits of the fixed key already preset
-    // to a combination of zeros and ones.
-    size_t numAdditionalFixedBits = 3;
-    size_t numTasks = 2^^numAdditionalFixedBits;
-    ulong initialChangingFixedMaskPart = getMaskOfFirstNUnsetBits(keyKnownBitsMask, numAdditionalFixedBits);
-    ulong changingBitsAllSet = initialChangingFixedMaskPart;
+    /// Create 2^N tasks, to compute things in parallel.
+    /// Every task starts with N unkown bits of the fixed key already preset
+    /// to a combination of zeros and ones.
+    const size_t numTasks = 2^^numAdditionalFixedBits;
+    const initialChangingFixedMaskPart = getMaskOfFirstNUnsetBits(keyKnownBitsMask, numAdditionalFixedBits);
+    const changingBitsAllSet = initialChangingFixedMaskPart;
+    const fixedMask = initialChangingFixedMaskPart | keyKnownBitsMask;
     ulong currentChangingFixedMaskPart = 0;
-    ulong fixedMask = initialChangingFixedMaskPart | keyKnownBitsMask;
-    writefln("Known %016X", keyKnownBitsMask);
-    writefln("InitialChaning %016X", initialChangingFixedMaskPart);
-    writefln("Fixed %016X", fixedMask);
-    writefln("Known Part %016X", knownKeyPart);
-    writeln();
+
+    assert(initialChangingFixedMaskPart != ~(cast(ulong) 0), "Play with the parameters a bit, there's nothing to guess");
+
+    static if (!IgnoreParity)
+    {
+        // 1. compute which bytes are fully fixed
+        ulong getFullyFixedByteParityBitsMask() 
+        {
+            ulong a = des.parityBitsMask;
+            foreach (bitIndexInByte; 0..8)
+                a &= fixedMask << bitIndexInByte;
+            return a;
+        }
+        const fullyFixedByteParityBitsMask = getFullyFixedByteParityBitsMask();
+    }
+
+    // writefln("Known %016X", keyKnownBitsMask);
+    // writefln("initialChangingFixedMaskPart %016X", initialChangingFixedMaskPart);
+    // writefln("changingBitsAllSet %016X", changingBitsAllSet);
+    // writefln("fixedMask %016X", fixedMask);
+    // writefln("Known Part %016X", knownKeyPart);
+    // writefln("fullyFixedByteParityBitsMask %016X", fullyFixedByteParityBitsMask);
+    // writeln();
+
 
     import std.parallelism;
-    Task!(search, ulong, ulong)[] tasks;// = new Task!(search, ulong, ulong)[](numTasks);
+    import std.meta;
+    alias taskArgs = AliasSeq!(search, ulong, ulong, ulong);
+    Task!taskArgs*[] tasks;// = new Task!(search, ulong, ulong)[](numTasks);
     foreach (index; 0..numTasks)
     {
         const currentFixedPart = knownKeyPart | (changingBitsAllSet & currentChangingFixedMaskPart);
-        writefln("CurrentFixed part %016X", currentFixedPart);
+        // writefln("CurrentFixed part %016X", currentFixedPart);
+        // writefln("currentChangingFixedMaskPart %016X", currentChangingFixedMaskPart);
+        currentChangingFixedMaskPart = (currentChangingFixedMaskPart | ~initialChangingFixedMaskPart) + 1;
 
         static if (!IgnoreParity)
         {
-            // If the fixed part is apriori wrong (checking parity), skip it
-            // 1. find out the correct parity
-            ulong currentParity = currentFixedPart & des.parityBitsMask;
-            ulong correctParity = des.getKeyParity(currentFixedPart);
-            // 2. compute which bytes are fully fixed
-            ulong fullyFixedBytes = des.parityBitsMask;
-            foreach (bitIndexInByte; 0..8)
-                fullyFixedBytes &= fixedMask << bitIndexInByte;
+            // If the fixed part is apriori wrong (checking parity), skip it.
+            // 2. find out the correct parity
+            const correctParity = des.getKeyParity(currentFixedPart);
             // 3. for those bytes that are fixed, check if the parity matches
-            ulong parityFlagsOfFixedBytes = fullyFixedBytes & currentParity;
-            ulong correctParityOfFixedBytes = fullyFixedBytes & correctParity;
+            const correctParityOfFixedBytes = fullyFixedByteParityBitsMask & correctParity;
+            const parityFlagsOfFixedBytes = fullyFixedByteParityBitsMask & currentFixedPart;
+
+            // writefln("correctParity %016X", correctParity);
+            // writefln("correctParityOfFixedBytes %016X", correctParityOfFixedBytes);
+            // writefln("parityFlagsOfFixedBytes %016X", parityFlagsOfFixedBytes);
+
             // Skip this task, since its work will be in vain.
             if (parityFlagsOfFixedBytes != correctParityOfFixedBytes)
             {
-                writefln("correctParity %016X", correctParity);
-                writefln("fixedMask %016X", fixedMask);
-                writefln("fullyFixedBytes %016X", fullyFixedBytes);
-                writefln("parityFlagsOfFixedBytes %016X", parityFlagsOfFixedBytes);
-                writefln("correctParityOfFixedBytes %016X", correctParityOfFixedBytes);
-                writeln("Skipping task number ", index);
-                writeln();
+                writeln("Skipping task number ", index, " (because of parity reasons).");
                 continue;
             }
         }
@@ -144,15 +183,14 @@ void main()
         halving the number of guesses.
 */      
 
-        auto task = scopedTask!search(fixedMask, cast(ulong) currentFixedPart);
-        tasks ~= task;
-        task.executeInNewThread();
-        writeln("Started task ", index);
-
-        currentChangingFixedMaskPart = (currentChangingFixedMaskPart | ~initialChangingFixedMaskPart) + 1;
+        auto t = task!taskArgs(fixedMask, currentFixedPart, numActuallyKnownBits);
+        t.executeInNewThread();
+        tasks ~= t;
+        writeln("Started task ", index, ".");
     }
     // writeln(currentChangingFixedMaskPart);
-    // assert(currentChangingFixedMaskPart == 0);
+    static if (IgnoreParity)
+        assert(currentChangingFixedMaskPart == 0);
 
     // Iterate until one of the tasks finishes having found a valid key.
     ulong foundKey = 0;
@@ -160,7 +198,7 @@ void main()
     {
         import core.thread;
         Thread.sleep(dur!"msecs"(100));
-        foreach (index, ref task; tasks)
+        foreach_reverse (index, task; tasks)
         {
             if (task.done)
             {
@@ -170,7 +208,6 @@ void main()
                     break outer;
                 // Otherwise remove the given task and keep waiting
                 tasks.remove(index);
-                continue outer;
             }
         }
     }
@@ -208,3 +245,28 @@ unittest
     assert(getMaskOfFirstNUnsetBits(0xffffffff_ffffff00, 8) == 0x00000000_000000ff);
     assert(getMaskOfFirstNUnsetBits(0x00ffffff_ffffffff, 4) == 0x0f000000_00000000);
 }
+
+/// This implementation is 4 times faster than the one below.
+/// With unrolled loops (static foreach) it's 1.5 times more fast than this.
+ulong countBits(ulong number)
+{
+    ulong count = 0;
+    foreach (bitIndex; 0..8)
+        count += (number >> bitIndex) & 0x01010101_01010101;
+    ulong actualCount = 0;
+    foreach (byte b; cast(byte[8]) (&count)[0..1])
+        actualCount += b;
+    return actualCount;
+}
+unittest
+{
+    assert(countBits(0xffffffff_ffffffff) == 64);
+}
+
+// ulong countBits(ulong number)
+// {
+//     ulong count = 0;
+//     foreach (bitIndex; 0..64)
+//         count += (number >> bitIndex) & 1;
+//     return count;
+// }
