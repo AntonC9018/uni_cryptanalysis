@@ -42,32 +42,34 @@ unittest
 // https://www.wikiwand.com/en/Binomial_coefficient#/Pascal.27s_triangle
 ulong nchoosek(ulong n, ulong k)
 {
+    if (k > n / 2)
+        k = n - k;
     if (k > n)
         return nchoosek_internal(k, n);
     return nchoosek_internal(n, k);
 }
 
-private ulong[] cache = [1];
+private ulong[] pascalsTriangleCache;
 private ulong nchoosek_internal(ulong n, ulong k)
 {
     assert(k <= n);
     if (k == 0 || k == n)
         return 1;
-
-    ulong index = (n + 1) * n / 2 + k - 1 - 2 * (n - 1);
+    // It took me a while to figure out this formula.
+    ulong index = (n / 2 - 1) * (n / 2) + (n / 2) * (n & (cast(ulong) 1)) + (k - 1);
     ulong targetLength = index + 1;
-    if (cache.length >= targetLength)
+    if (pascalsTriangleCache.length >= targetLength)
     {
-        if (cache[index] != 0)
-            return cache[index];
+        if (pascalsTriangleCache[index] != 0)
+            return pascalsTriangleCache[index];
     }
     else
     {
-        cache.length = targetLength;
+        pascalsTriangleCache.length = targetLength;
     }
 
-    ulong result = nchoosek_internal(n - 1, k) + nchoosek_internal(n - 1, k - 1);
-    cache[index] = result;
+    ulong result = nchoosek(n - 1, k) + nchoosek(n - 1, k - 1);
+    pascalsTriangleCache[index] = result;
     return result;
 }
 unittest
