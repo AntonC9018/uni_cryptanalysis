@@ -1,43 +1,6 @@
 module common.combinatorics;
 import std.stdio;
 
-ulong getRandomMaskWithNSetBits(ulong numOnes)
-{
-    import std.random;
-    if (numOnes > 32)
-        return ~getRandomMaskWithNSetBits(64 - numOnes);
-    return getRandomMaskWithNSetBits_decode(numOnes, uniform!("[)", ulong)(0, nchoosek(64, numOnes)));
-}
-
-// https://cs.stackexchange.com/a/67669
-ulong getRandomMaskWithNSetBits_decode(ulong numOnes, ulong ordinal)
-{
-    ulong bits = 0;
-    for (ulong bitIndex = 63; numOnes > 0; bitIndex--)
-    {
-        ulong nCk = nchoosek(bitIndex, numOnes) - 1;
-        // writefln("ordinal: %x  nck(%d, %d): %x", ordinal, bitIndex, numOnes, nCk);
-        if (ordinal >= nCk)
-        {
-            ordinal -= nCk;
-            bits |= (cast(ulong) 1) << bitIndex;
-            numOnes--;
-        }
-    }
-    return bits;
-}
-unittest
-{
-    enum numOnes = 20;
-    size_t randomNumber = getRandomMaskWithNSetBits(numOnes);
-    // writefln("%x", randomNumber);
-
-    size_t numSetBits = 0;
-    foreach (bitIndex; 0..64)
-        numSetBits += (randomNumber >> bitIndex) & 1;
-    assert(numSetBits == numOnes);
-}
-
 
 // https://www.wikiwand.com/en/Binomial_coefficient#/Pascal.27s_triangle
 ulong nchoosek(ulong n, ulong k)
