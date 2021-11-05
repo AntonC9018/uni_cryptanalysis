@@ -30,15 +30,15 @@ Vedeți [Github](https://github.com/AntonC9018/uni_cryptanalysis).
 3. Masca biților cunoscuți de cheie este combinată prin AND cu biții cheii, pentru a primi biții cunoscuți ale cheii.
 
 4. Trecem prin toate măștile posibile, unde sunt setate toți biții măștii cunoscute, și mai un număr variabil de biți pe locuri 
-   necunoscute. Aceasta problema deja am rezolvat de mai multe ori în cod, ideea inițial vine [de aici](https://stackoverflow.com/questions/53326021/fast-way-to-shift-bits-to-positions-given-in-a-mask). 
+   necunoscute. Această problemă deja am rezolvat-o de mai multe ori în cod, ideea inițial vine [de aici](https://stackoverflow.com/questions/53326021/fast-way-to-shift-bits-to-positions-given-in-a-mask). 
    Pe poziții unde această mască are biții setați unde masca de biți cunoscuți nu le are, punem 1, astfel trecând prin
    toate variantele posibile ale cheii.
 
 5. Pentru fiecare cheie, se verifică paritatea cu ajutorul biților de paritate. 
    Dacă paritatea nu este corectă, cheia se consideră nevalidă.
 
-6. Pentru cheii corecte, se verifică dacă o cheie dată criptează toate mesajele clare la mesajele criptate corespunzătoare.
-   Verific toate una după altă, pentru a nu culege cheii într-un tablou, verificând-ule după ce am cules toate cheile posibile.
+6. Pentru chei corecte, se verifică dacă o cheie dată criptează toate mesajele clare la mesajele criptate corespunzătoare.
+   Verific toate una după altă, pentru a nu culege cheile într-un tablou, verificându-le după ce am cules toate cheile posibile.
    Fac verificarea pe toate perechile de mesaje deoadată, și dacă cheia criptează corect toate mesajele, opresc căutarea.
 
 
@@ -48,32 +48,33 @@ Pentru paralelizare am folosit modului `std.parallelism` în D.
 
 Algoritmul este următorul:
 
-1. Fixez primii $ N $ biții egale cu 0 din masca biților cunoscuți.
+1. Fixez primii $ N $ biți egale cu 0 din masca biților cunoscuți. 
+   Formez o mască, numimită *masca changing*, unde punem 1 pe pozițiile acestor biți.
 
-2. Generez masca biților fixați, egală cu OR-ul dintre masca biților cunoscuți și masca biților fixați.
+2. Generez masca biților fixați, egală cu OR-ul dintre masca biților cunoscuți și masca changing.
 
-3. Trec prin toate combinațiile de 0 și 1 posibile pentru cele $ N $ primii biți fixate din punctul 1.
-   Generez cheia inițială, unde combin cu OR biții cunoscuți ai cheii și acești primii $ N $ biți.
+3. Trec prin toate combinațiile de 0 și 1 posibile pentru cele $ N $ biți a măștii changing.
+   Generez cheia inițială, unde combin cu OR biții cunoscuți ai cheii și biții măștii changing.
 
 4. Pentru fiecare așa cheie inițială, verific dacă așa cheie poate exista (este posibil că, de exemplu, toții biți din octetul 
-   inițiali vor fi fixați, însă paritatea să fie nevaidă). Elimin așa chei.
+   inițial vor fi fixați, însă paritatea să fie nevalidă). Elimin așa chei.
 
 5. Pentru cheile inițiale valide, pornesc un nou proces, care execută algoritmul inițial, pașii 4-6,
    cu biții fixați setați la masca biților fixați (2), iar biții cheii cunoscuți setați la cheia inițială (3).
 
-6. Procesul principal verifică progresul proceselor care fac computații, oprindu-se și oprindu-le pe toate procesele dacă cheia corectă s-a găsit.
+6. Procesul principal verifică progresul proceselor care fac computații, oprindu-se și oprindu-le pe toate procesele dacă cheia corectă a fost găsită.
 
 
 ## Realizarea
 
-Vedeți codul sursă pe github. 
+Vedeți [codul sursă pe github](https://github.com/AntonC9018/uni_cryptanalysis/blob/e43e4f9770e79db9c7809a8a556913f5e5b30d27/source/lab2.d), și [modulele adăugătoare](https://github.com/AntonC9018/uni_cryptanalysis/tree/master/source/common) care implementează [algoritmul DES](https://github.com/AntonC9018/uni_cryptanalysis/blob/e43e4f9770e79db9c7809a8a556913f5e5b30d27/source/common/des.d), [operații utile pe biți](https://github.com/AntonC9018/uni_cryptanalysis/blob/e43e4f9770e79db9c7809a8a556913f5e5b30d27/source/common/bitmagic.d) și [funcția $ C _ n ^ k $](https://github.com/AntonC9018/uni_cryptanalysis/blob/e43e4f9770e79db9c7809a8a556913f5e5b30d27/source/common/combinatorics.d).
 Algoritmul nu este optimal, însă a ieșit atât de rapid că se termină aproape instant și pentru un număr de biți cunoscuți egal cu 32. 
-Se execută în mai puțin decât un minut pentru doar 25 biți cunoscuți pe calculatorul meu.
+Se execută în mai puțin decât un minut pe calculatorul meu pentru doar 25 biți cunoscuți.
 
 ## Executarea
 
 Numărul de biți necunoscuți = 25.
-Cu numărul de biți setați la o valore mai mare ca 32, atacul se termină cu succes imediat.
+Cu numărul de biți setați la o valore mai mare ca 32, atacul se termină cu succes aproape imediat.
 Compilatorul meu este DMD, cu LDC codul trebuie să se execute și mai rapid.
 
 ```d
