@@ -1,5 +1,5 @@
 // The program outputs a csv file for a given sustitution table (specified in main).
-// So run it with `diffs >> filename.csv`.
+// So run it with `dmd -run diffs.d >> filename.csv`.
 module stuff.diffs;
 
 import std.conv;
