@@ -6,7 +6,8 @@ import std.range;
 import std.stdio;
 
 /// `IgnoreParity = false` means processes will not be started if the parity 
-/// of the fixed key part is apriori wring.
+/// of the fixed key part is apriori wrong.
+/// The default is `false`
 version (IgnoreParity)
     enum IgnoreParity = true;
 else
@@ -15,7 +16,7 @@ else
 
 /// The number of disclosed bits in the key.
 /// To test things quickly, set to ~40
-enum numKnownBits = 28;
+enum numKnownBits = 25;
 /// 2^numAdditionalFixedBits is the maximum number of processes
 /// that will be doing checks. When IgnoreParity is set to false, 
 /// most likely, it will be halved, due to how I resolve parity. 
@@ -190,7 +191,13 @@ void main()
 
     // Iterate until one of the tasks finishes having found a valid key.
     ulong foundKey = 0;
+    ulong totalNumKeys = (cast(ulong) 1) << (64 - numActuallyKnownBits);
     ulong previousPercentage = 0;
+    // There being half the processes means half of the keys were already discarded due to parity reasons.
+    // I think there cannot be any other number than a half or 0.
+    if (tasks.length == numTasks / 2)
+        totalNumKeys /= 2;
+
     outer: while (tasks.length > 0)
     {
         import core.thread;
@@ -208,8 +215,7 @@ void main()
             }
         }
 
-        enum numKeys = (cast(ulong) 1) << (64 - numActuallyKnownBits);
-        ulong newPercentage = (numKeysCheckedSoFar * 100 / numKeys);
+        ulong newPercentage = (numKeysCheckedSoFar * 100 / totalNumKeys);
         if (newPercentage - previousPercentage >= 5)
         {
             writeln(newPercentage, "% of keys checked.");
