@@ -5,10 +5,10 @@ import std.stdio;
 // https://www.wikiwand.com/en/Binomial_coefficient#/Pascal.27s_triangle
 ulong nchoosek(ulong n, ulong k)
 {
-    if (k > n / 2)
-        k = n - k;
     if (k > n)
         return nchoosek_internal(k, n);
+    if (k > n / 2)
+        k = n - k;
     return nchoosek_internal(n, k);
 }
 
