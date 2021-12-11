@@ -1,4 +1,4 @@
-# Lucrearea de individuală Nr.1 la Criptanaliza
+# Lucrearea individuală Nr.1 la Criptanaliza
 
 Tema: **Calculul diferențelor**.
 
