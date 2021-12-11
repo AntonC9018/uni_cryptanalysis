@@ -114,14 +114,12 @@ void main()
     static if (!IgnoreParity)
     {
         // 1. compute which bytes are fully fixed
-        ulong getFullyFixedByteParityBitsMask() 
-        {
+        const fullyFixedByteParityBitsMask = {
             ulong a = des.parityBitsMask;
             foreach (bitIndexInByte; 0..8)
-                a &= fixedMask << bitIndexInByte;
+                a &= fixedMask >> bitIndexInByte;
             return a;
-        }
-        const fullyFixedByteParityBitsMask = getFullyFixedByteParityBitsMask();
+        }();
     }
 
     // writefln("Known %016X", keyKnownBitsMask);

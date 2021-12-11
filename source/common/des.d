@@ -335,6 +335,6 @@ ulong getKeyParity(ulong key)
 {
     ulong parityCounter = parityBitsMask;
     foreach (bitShift; 1..8)
-        parityCounter ^= (key << (8 - bitShift)) & parityBitsMask;
+        parityCounter ^= (key >> bitShift) & parityBitsMask;
     return parityCounter;
 }
